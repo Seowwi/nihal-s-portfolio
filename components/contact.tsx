@@ -14,14 +14,14 @@ export default function Contact() {
     },
     {
       icon: <MapPin className="h-6 w-6 text-primary" />,
-      title: "Địa chỉ",
-      value: "Hà Nội, Việt Nam",
+      title: "所在地",
+      value: "ベトナム・ハノイ",
       link: "https://maps.google.com/?q=Hanoi,Vietnam",
     },
     {
       icon: <Phone className="h-6 w-6 text-primary" />,
-      title: "Điện thoại",
-      value: "Liên hệ khi cần",
+      title: "電話番号",
+      value: "ご連絡いただければお伝えします",
       link: null,
     },
   ]
@@ -32,9 +32,9 @@ export default function Contact() {
         <div className="container px-4 md:px-6 mx-auto">
           <div className="space-y-12">
             <div className="space-y-4 text-center">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Liên hệ · お問い合わせ</h2>
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">お問い合わせ</h2>
               <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Bạn muốn trao đổi về việc học tiếng Nhật, hợp tác hay cơ hội thực tập? Hãy nhắn cho tôi nhé!
+                日本語学習や協力、インターンの機会についてお気軽にメッセージをお送りください。
               </p>
             </div>
 
@@ -46,41 +46,41 @@ export default function Contact() {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="space-y-2">
                           <label htmlFor="name" className="text-sm font-medium">
-                            Họ và tên
+                            お名前
                           </label>
-                          <Input id="name" name="name" placeholder="Tên của bạn" required />
+                          <Input id="name" name="name" placeholder="お名前" required />
                         </div>
                         <div className="space-y-2">
                           <label htmlFor="email" className="text-sm font-medium">
-                            Email
+                            メールアドレス
                           </label>
-                          <Input id="email" name="email" type="email" placeholder="Email của bạn" required />
+                          <Input id="email" name="email" type="email" placeholder="メールアドレス" required />
                         </div>
                       </div>
                       <div className="space-y-2">
                         <label htmlFor="subject" className="text-sm font-medium">
-                          Tiêu đề
+                          件名
                         </label>
-                        <Input id="subject" name="subject" placeholder="Tiêu đề tin nhắn" required />
+                        <Input id="subject" name="subject" placeholder="メッセージの件名" required />
                       </div>
                       <div className="space-y-2">
                         <label htmlFor="message" className="text-sm font-medium">
-                          Nội dung
+                          メッセージ
                         </label>
                         <Textarea
                           id="message"
                           name="message"
-                          placeholder="Nội dung tin nhắn"
+                          placeholder="メッセージの内容"
                           className="min-h-[150px]"
                           required
                         />
                       </div>
                       <Button type="submit" className="w-full">
-                        Gửi tin nhắn
+                        送信する
                       </Button>
                       <noscript>
                         <p className="text-sm text-center text-muted-foreground mt-2">
-                          Vui lòng bật JavaScript để dùng biểu mẫu, hoặc gửi email trực tiếp cho tôi.
+                          フォームを使用するにはJavaScriptを有効にするか、直接メールでご連絡ください。
                         </p>
                       </noscript>
                     </form>
@@ -99,8 +99,8 @@ export default function Contact() {
                           <a
                             href={info.link}
                             className="text-muted-foreground hover:text-primary transition-colors"
-                            target={info.title === "Location" ? "_blank" : undefined}
-                            rel={info.title === "Location" ? "noopener noreferrer" : undefined}
+                            target={info.title === "所在地" ? "_blank" : undefined}
+                            rel={info.title === "所在地" ? "noopener noreferrer" : undefined}
                           >
                             {info.value}
                           </a>
@@ -114,8 +114,8 @@ export default function Contact() {
 
                 <Card>
                   <CardContent className="p-6">
-                    <h3 className="font-medium mb-2">Kết nối với tôi</h3>
-                    <p className="text-sm text-muted-foreground mb-4">Tìm tôi trên các nền tảng sau</p>
+                    <h3 className="font-medium mb-2">つながる</h3>
+                    <p className="text-sm text-muted-foreground mb-4">以下のプラットフォームでご覧いただけます</p>
                     <div className="flex gap-4">
                       <Button variant="outline" size="icon" asChild>
                         <a href="https://github.com/maskeynihal" target="_blank" rel="noopener noreferrer">

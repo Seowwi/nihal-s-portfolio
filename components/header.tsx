@@ -12,11 +12,11 @@ import { motion } from "framer-motion"
 import Link from "next/link"
 
 const navItems = [
-  { name: "Trang chủ", href: "#home" },
-  { name: "Giới thiệu", href: "#about" },
-  { name: "Bài tập", href: "#projects" },
-  { name: "Học vấn", href: "#education" },
-  { name: "Liên hệ", href: "#contact" },
+  { name: "ホーム", href: "#home" },
+  { name: "自己紹介", href: "#about" },
+  { name: "課題", href: "#projects" },
+  { name: "学歴", href: "#education" },
+  { name: "お問い合わせ", href: "#contact" },
 ]
 
 export default function Header() {

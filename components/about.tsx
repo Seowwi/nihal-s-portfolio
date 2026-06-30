@@ -5,23 +5,23 @@ export default function About() {
   const features = [
     {
       icon: <Languages className="h-10 w-10 text-primary" />,
-      title: "Tiếng Nhật · 日本語",
-      description: "Trình độ JLPT N3, đang luyện thi N2; thành thạo Hiragana, Katakana và hơn 1000 chữ Kanji",
+      title: "日本語",
+      description: "JLPT N3取得済み、N2に向けて勉強中。ひらがな・カタカナ・漢字1000字以上を習得しています。",
     },
     {
       icon: <PenTool className="h-10 w-10 text-primary" />,
-      title: "Biên - Phiên dịch · 翻訳・通訳",
-      description: "Thực hành dịch Việt - Nhật cho văn bản, hội thoại và phụ đề video",
+      title: "翻訳・通訳",
+      description: "文章・会話・動画字幕のベトナム語⇔日本語の翻訳を練習しています。",
     },
     {
       icon: <Globe className="h-10 w-10 text-primary" />,
-      title: "Văn hóa Nhật Bản · 日本文化",
-      description: "Tìm hiểu văn hóa, lịch sử và phong tục giao tiếp trong môi trường công sở Nhật",
+      title: "日本文化",
+      description: "日本の文化・歴史やビジネスシーンでのマナーについて学んでいます。",
     },
     {
       icon: <BookOpen className="h-10 w-10 text-primary" />,
-      title: "Ngoại ngữ khác · その他の言語",
-      description: "Tiếng Anh giao tiếp tốt (IELTS 6.5), hỗ trợ cho việc học và nghiên cứu ngôn ngữ",
+      title: "その他の言語",
+      description: "英語でのコミュニケーションも得意（IELTS 6.5）で、言語学習や研究に役立てています。",
     },
   ]
 
@@ -31,19 +31,15 @@ export default function About() {
         <div className="container px-4 md:px-6 mx-auto">
           <div className="space-y-12">
             <div className="space-y-4 text-center">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Giới thiệu · 自己紹介</h2>
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">自己紹介</h2>
               <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Tôi là sinh viên năm ba ngành Ngôn ngữ Nhật, yêu thích tiếng Nhật và văn hóa Nhật Bản, mong muốn trở
-                thành biên - phiên dịch viên chuyên nghiệp.
+                日本語学科の3年生です。日本語と日本文化が大好きで、プロの翻訳者・通訳者になることを目指しています。
               </p>
             </div>
 
             <div className="mx-auto max-w-3xl text-center">
               <p className="text-muted-foreground md:text-lg/relaxed lg:text-base/relaxed xl:text-lg/relaxed">
-                Tôi bắt đầu học tiếng Nhật từ năm nhất đại học và hiện đạt trình độ JLPT N3, đang nỗ lực luyện thi N2.
-                Bên cạnh việc học trên lớp, tôi tích cực tham gia câu lạc bộ tiếng Nhật, trao đổi với người bản xứ và
-                thực hành dịch thuật. Mục tiêu của tôi là sử dụng thành thạo tiếng Nhật để kết nối văn hóa Việt - Nhật
-                và theo đuổi sự nghiệp biên - phiên dịch.
+                大学1年生のときに日本語の勉強を始め、現在はJLPT N3に合格し、N2合格を目指して努力しています。授業だけでなく、日本語クラブに積極的に参加し、ネイティブスピーカーと交流したり、翻訳の練習をしたりしています。日本語を自在に使いこなし、ベトナムと日本の文化の架け橋となり、翻訳・通訳の仕事に就くことが私の目標です。
               </p>
             </div>
 
