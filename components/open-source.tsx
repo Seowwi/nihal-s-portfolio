@@ -4,22 +4,22 @@ import { Users } from "lucide-react"
 export default function OpenSource() {
   const activities = [
     {
-      title: "Câu lạc bộ tiếng Nhật (日本語クラブ)",
+      title: "日本語クラブ",
       description:
-        "Thành viên tích cực của câu lạc bộ tiếng Nhật, tham gia tổ chức các buổi giao lưu, luyện hội thoại và sự kiện văn hóa.",
-      tags: ["会話", "Giao lưu", "Sự kiện"],
+        "日本語クラブの積極的なメンバーとして、交流会・会話練習・文化イベントの企画に参加しています。",
+      tags: ["会話", "交流", "イベント"],
     },
     {
-      title: "Trao đổi ngôn ngữ với người bản xứ",
+      title: "ネイティブとの言語交換",
       description:
-        "Tham gia chương trình language exchange, luyện nói hằng tuần với sinh viên Nhật Bản và hỗ trợ họ học tiếng Việt.",
-      tags: ["会話", "Nghe - Nói", "Văn hóa"],
+        "言語交換プログラムに参加し、毎週日本人学生と会話を練習しながら、彼らのベトナム語学習もサポートしています。",
+      tags: ["会話", "聞く・話す", "文化"],
     },
     {
-      title: "Tình nguyện viên sự kiện văn hóa Nhật",
+      title: "日本文化イベントのボランティア",
       description:
-        "Hỗ trợ phiên dịch và hướng dẫn tại các lễ hội, hội chợ văn hóa Nhật Bản tổ chức tại trường và địa phương.",
-      tags: ["通訳", "Tình nguyện", "文化"],
+        "大学や地域で開催される日本文化の祭り・フェアで、通訳や案内のサポートを行っています。",
+      tags: ["通訳", "ボランティア", "文化"],
     },
   ]
 
@@ -27,9 +27,9 @@ export default function OpenSource() {
     <div id="open-source">
       <div className="space-y-12">
         <div className="space-y-4 text-center">
-          <h3 className="text-2xl font-bold tracking-tighter sm:text-3xl">Hoạt động ngoại khóa · 課外活動</h3>
+          <h3 className="text-2xl font-bold tracking-tighter sm:text-3xl">課外活動</h3>
           <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg/relaxed lg:text-base/relaxed">
-            Các hoạt động giúp tôi rèn luyện tiếng Nhật và hiểu thêm về văn hóa Nhật Bản
+            日本語を磨き、日本文化への理解を深めるのに役立っている活動です。
           </p>
         </div>
 

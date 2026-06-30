@@ -7,9 +7,9 @@ export default function Education() {
       <div className="container px-4 md:px-6 mx-auto">
         <div className="space-y-12">
           <div className="space-y-4 text-center">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Học vấn · 学歴</h2>
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">学歴</h2>
             <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              Quá trình học tập và các chứng chỉ ngôn ngữ của tôi
+              これまでの学習歴と語学の資格です。
             </p>
           </div>
 
@@ -21,15 +21,13 @@ export default function Education() {
                     <GraduationCap className="h-8 w-8 text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold">Cử nhân ngành Ngôn ngữ Nhật</h3>
-                    <p className="text-muted-foreground">Trường Đại học Ngoại ngữ (2023 - hiện tại)</p>
+                    <h3 className="text-xl font-bold">日本語学科 学士課程</h3>
+                    <p className="text-muted-foreground">外国語大学（2023年〜現在）</p>
                   </div>
                 </div>
                 <div className="p-6">
                   <p className="text-muted-foreground">
-                    Theo học chương trình cử nhân Ngôn ngữ Nhật với các môn nền tảng về ngữ pháp, từ vựng, Kanji,
-                    nghe - nói, biên - phiên dịch và văn hóa Nhật Bản. Tích lũy nền tảng vững chắc về tiếng Nhật và
-                    kỹ năng giao tiếp đa văn hóa.
+                    日本語学科の学士課程で、文法・語彙・漢字・聞く話す・翻訳通訳・日本文化といった基礎科目を学んでいます。日本語の確かな基礎と異文化コミュニケーション力を身につけています。
                   </p>
                 </div>
               </CardContent>
@@ -42,14 +40,13 @@ export default function Education() {
                     <GraduationCap className="h-8 w-8 text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold">Chứng chỉ năng lực tiếng Nhật JLPT N3</h3>
-                    <p className="text-muted-foreground">Quỹ Giao lưu Quốc tế Nhật Bản (2024)</p>
+                    <h3 className="text-xl font-bold">日本語能力試験 JLPT N3</h3>
+                    <p className="text-muted-foreground">国際交流基金（2024年）</p>
                   </div>
                 </div>
                 <div className="p-6">
                   <p className="text-muted-foreground">
-                    Đạt chứng chỉ JLPT N3, có khả năng hiểu tiếng Nhật ở mức độ vừa phải trong các tình huống đời sống
-                    hằng ngày. Hiện đang luyện thi cấp độ N2 dự kiến trong năm tới.
+                    JLPT N3に合格し、日常生活の場面である程度の日本語を理解できるようになりました。現在は来年のN2合格を目指して勉強しています。
                   </p>
                 </div>
               </CardContent>

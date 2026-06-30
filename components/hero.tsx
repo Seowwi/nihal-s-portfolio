@@ -11,30 +11,27 @@ export default function Hero() {
         <div className="flex flex-col items-center space-y-4 text-center">
           <div className="space-y-2">
             <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-              Xin chào, tôi là <span className="gradient-text">Nguyễn Minh Anh</span>
+              はじめまして、<span className="gradient-text">グエン・ミン・アイン</span>です
             </h1>
             <p className="mx-auto max-w-[700px] text-xl text-muted-foreground md:text-2xl">
               <span className="js-only">
-                <span>Sinh viên ngành Ngôn ngữ Nhật · 日本語学科の学生</span>
+                <span>日本語学科の学生</span>
               </span>
               <noscript>
-                <span>Sinh viên ngành Ngôn ngữ Nhật | 日本語学科の学生</span>
+                <span>日本語学科の学生</span>
               </noscript>
             </p>
           </div>
           <div className="max-w-[700px] text-muted-foreground">
-            <p className="text-lg">
-              Đam mê tiếng Nhật và văn hóa Nhật Bản, hướng tới chứng chỉ JLPT N2 và công việc biên - phiên dịch
-              {" · 日本語と日本文化が大好きです"}
-            </p>
+            <p className="text-lg">日本語と日本文化が大好きで、JLPT N2合格と翻訳・通訳の仕事を目指しています。</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 mt-6">
             <Button asChild size="lg" className="rounded-full">
-              <Link href="#contact">Liên hệ với tôi</Link>
+              <Link href="#contact">お問い合わせ</Link>
             </Button>
             <Button asChild variant="outline" size="lg" className="rounded-full">
               <a href="#" target="_blank" rel="noopener noreferrer">
-                <Download className="mr-2 h-4 w-4" /> Tải CV
+                <Download className="mr-2 h-4 w-4" /> 履歴書をダウンロード
               </a>
             </Button>
           </div>

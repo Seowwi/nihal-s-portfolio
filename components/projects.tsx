@@ -6,52 +6,52 @@ import OpenSource from "./open-source"
 export default function Projects() {
   const assignments = [
     {
-      title: "Bài luận: Văn hóa giao tiếp Nhật Bản",
-      titleJp: "日本のコミュニケーション文化",
+      title: "作文：日本のコミュニケーション文化",
+      titleJp: "敬語の使い方について",
       description:
-        "Bài luận 800 chữ bằng tiếng Nhật phân tích cách dùng kính ngữ (敬語) trong môi trường công sở và đời sống hằng ngày.",
-      tags: ["敬語", "Viết luận", "N3"],
-      score: "Điểm: A",
+        "ビジネスシーンや日常生活における敬語の使い方を分析した、800字の日本語作文です。",
+      tags: ["敬語", "作文", "N3"],
+      score: "評価：A",
     },
     {
-      title: "Dịch Việt - Nhật: Bản tin ngắn",
-      titleJp: "ベトナム語から日本語への翻訳",
+      title: "翻訳：短いニュース記事",
+      titleJp: "ベトナム語から日本語へ",
       description:
-        "Dịch một bản tin thời sự từ tiếng Việt sang tiếng Nhật, chú trọng độ chính xác về ngữ pháp và cách diễn đạt tự nhiên.",
-      tags: ["翻訳", "Ngữ pháp", "Từ vựng"],
-      score: "Điểm: A-",
+        "時事ニュースをベトナム語から日本語に翻訳し、文法の正確さと自然な表現を重視しました。",
+      tags: ["翻訳", "文法", "語彙"],
+      score: "評価：A-",
     },
     {
-      title: "Thuyết trình: Lễ hội bốn mùa Nhật Bản",
-      titleJp: "日本の四季の祭り",
+      title: "プレゼン：日本の四季の祭り",
+      titleJp: "季節ごとの代表的な祭り",
       description:
-        "Bài thuyết trình nhóm bằng tiếng Nhật giới thiệu các lễ hội tiêu biểu theo từng mùa, kèm slide và phần hỏi đáp.",
-      tags: ["Thuyết trình", "Nghe - Nói", "Văn hóa"],
-      score: "Điểm: A",
+        "季節ごとの代表的な祭りを紹介する日本語のグループプレゼンテーション。スライドと質疑応答付きです。",
+      tags: ["プレゼン", "会話", "文化"],
+      score: "評価：A",
     },
     {
-      title: "Sổ tay Kanji & từ vựng N2",
-      titleJp: "N2漢字・語彙ノート",
+      title: "N2漢字・語彙ノート",
+      titleJp: "JLPT N2対策",
       description:
-        "Tổng hợp và hệ thống hóa hơn 500 chữ Kanji cùng từ vựng theo chủ đề phục vụ cho kỳ thi JLPT N2.",
-      tags: ["漢字", "Tự học", "N2"],
-      score: "Đang thực hiện",
+        "JLPT N2試験に向けて、500字以上の漢字とテーマ別の語彙をまとめて体系化しました。",
+      tags: ["漢字", "自習", "N2"],
+      score: "進行中",
     },
     {
-      title: "Hội thoại tình huống nhà hàng",
-      titleJp: "レストランでの会話",
+      title: "レストランでの会話",
+      titleJp: "場面別ロールプレイ",
       description:
-        "Bài tập đóng vai hội thoại tại nhà hàng, luyện mẫu câu lịch sự khi gọi món, hỏi giá và thanh toán.",
-      tags: ["会話", "Nghe - Nói", "N3"],
-      score: "Điểm: B+",
+        "レストランでのロールプレイ課題。注文・値段の確認・会計の際の丁寧な表現を練習しました。",
+      tags: ["会話", "聞く・話す", "N3"],
+      score: "評価：B+",
     },
     {
-      title: "Nhật ký học tập tiếng Nhật",
-      titleJp: "日本語学習日記",
+      title: "日本語学習日記",
+      titleJp: "毎週の作文",
       description:
-        "Viết nhật ký ngắn bằng tiếng Nhật mỗi tuần để rèn luyện thói quen viết và ghi lại tiến độ học tập.",
-      tags: ["作文", "Thói quen", "Tự học"],
-      score: "Hằng tuần",
+        "書く習慣を身につけ、学習の進み具合を記録するために、毎週日本語で短い日記を書いています。",
+      tags: ["作文", "習慣", "自習"],
+      score: "毎週",
     },
   ]
 
@@ -60,9 +60,9 @@ export default function Projects() {
       <div className="container px-4 md:px-6 mx-auto">
         <div className="space-y-12">
           <div className="space-y-4 text-center">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Bài tập · 課題</h2>
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">課題</h2>
             <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              Một số bài tập và sản phẩm học tập tiêu biểu trong quá trình học tiếng Nhật
+              日本語学習の過程で取り組んだ代表的な課題や成果物の一部です。
             </p>
           </div>
 
@@ -93,7 +93,7 @@ export default function Projects() {
             ))}
           </div>
 
-          {/* Hoạt động ngoại khóa hiển thị ngay dưới mục Bài tập */}
+          {/* 課外活動は課題のすぐ下に表示 */}
           <div className="mt-20">
             <OpenSource />
           </div>

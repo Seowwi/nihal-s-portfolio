@@ -5,21 +5,20 @@ import ClientLayout from "./client"
 import { Suspense } from "react"
 
 export const metadata: Metadata = {
-  title: "Nguyễn Minh Anh | Sinh viên ngành Ngôn ngữ Nhật",
+  title: "グエン・ミン・アイン | 日本語学科の学生",
   description:
-    "Hồ sơ cá nhân của Nguyễn Minh Anh, sinh viên ngành Ngôn ngữ Nhật, đam mê tiếng Nhật, văn hóa Nhật Bản và biên - phiên dịch.",
+    "日本語学科の学生グエン・ミン・アインのポートフォリオ。日本語、日本文化、翻訳・通訳に情熱を注いでいます。",
   keywords: [
-    "Nguyễn Minh Anh",
-    "Ngôn ngữ Nhật",
-    "Tiếng Nhật",
+    "グエン・ミン・アイン",
+    "日本語学科",
     "日本語",
     "JLPT",
-    "Biên dịch",
-    "Phiên dịch",
-    "Sinh viên",
+    "翻訳",
+    "通訳",
+    "学生",
   ],
-  authors: [{ name: "Nguyễn Minh Anh" }],
-  creator: "Nguyễn Minh Anh",
+  authors: [{ name: "グエン・ミン・アイン" }],
+  creator: "グエン・ミン・アイン",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
@@ -29,26 +28,26 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    locale: "vi_VN",
+    locale: "ja_JP",
     url: "https://example.com",
-    title: "Nguyễn Minh Anh | Sinh viên ngành Ngôn ngữ Nhật",
+    title: "グエン・ミン・アイン | 日本語学科の学生",
     description:
-      "Hồ sơ cá nhân của Nguyễn Minh Anh, sinh viên ngành Ngôn ngữ Nhật, đam mê tiếng Nhật và văn hóa Nhật Bản.",
-    siteName: "Hồ sơ Nguyễn Minh Anh",
+      "日本語学科の学生グエン・ミン・アインのポートフォリオ。日本語と日本文化に情熱を注いでいます。",
+    siteName: "グエン・ミン・アイン ポートフォリオ",
     images: [
       {
         url: "/favicon.png",
         width: 512,
         height: 512,
-        alt: "Nguyễn Minh Anh Logo",
+        alt: "グエン・ミン・アイン ロゴ",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Nguyễn Minh Anh | Sinh viên ngành Ngôn ngữ Nhật",
+    title: "グエン・ミン・アイン | 日本語学科の学生",
     description:
-      "Hồ sơ cá nhân của Nguyễn Minh Anh, sinh viên ngành Ngôn ngữ Nhật, đam mê tiếng Nhật và văn hóa Nhật Bản.",
+      "日本語学科の学生グエン・ミン・アインのポートフォリオ。日本語と日本文化に情熱を注いでいます。",
     images: ["/favicon.png"],
   },
   robots: {
