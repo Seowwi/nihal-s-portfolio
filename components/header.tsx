@@ -15,10 +15,8 @@ import Link from "next/link"
 const navItems = [
   { name: "Home", href: "#home" },
   { name: "About", href: "#about" },
-  { name: "Experience", href: "#experience" },
   { name: "Projects", href: "#projects" },
   { name: "Education", href: "#education" },
-  { name: "Blog", href: "#blog" },
   { name: "Contact Me", href: "#contact" },
 ]
 
@@ -33,7 +31,7 @@ export default function Header() {
     const sections = navItems.map((item) => item.href.substring(1))
 
     // Add the sections that are not in the navbar but still need to be detected
-    const allSections = [...sections, "open-source", "skills"]
+    const allSections = [...sections, "open-source"]
 
     // Find the section that is currently in view
     for (let i = allSections.length - 1; i >= 0; i--) {
@@ -45,7 +43,6 @@ export default function Header() {
           // Map to the closest navbar item if it's not in the navbar
           const sectionId = allSections[i]
           if (sectionId === "open-source") return "projects"
-          if (sectionId === "skills") return "experience"
           if (!sections.includes(sectionId)) return "home"
           return sectionId
         }
