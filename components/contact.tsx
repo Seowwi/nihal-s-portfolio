@@ -9,19 +9,19 @@ export default function Contact() {
     {
       icon: <Mail className="h-6 w-6 text-primary" />,
       title: "Email",
-      value: "contact@nihal.com.np",
-      link: "mailto:contact@nihal.com.np",
+      value: "minhanh@example.com",
+      link: "mailto:minhanh@example.com",
     },
     {
       icon: <MapPin className="h-6 w-6 text-primary" />,
-      title: "Location",
-      value: "Kathmandu, Nepal",
-      link: "https://maps.google.com/?q=Kathmandu,Nepal",
+      title: "Địa chỉ",
+      value: "Hà Nội, Việt Nam",
+      link: "https://maps.google.com/?q=Hanoi,Vietnam",
     },
     {
       icon: <Phone className="h-6 w-6 text-primary" />,
-      title: "Phone",
-      value: "Available on request",
+      title: "Điện thoại",
+      value: "Liên hệ khi cần",
       link: null,
     },
   ]
@@ -32,9 +32,9 @@ export default function Contact() {
         <div className="container px-4 md:px-6 mx-auto">
           <div className="space-y-12">
             <div className="space-y-4 text-center">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Get In Touch</h2>
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Liên hệ · お問い合わせ</h2>
               <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Have a project in mind or want to discuss opportunities? I'd love to hear from you!
+                Bạn muốn trao đổi về việc học tiếng Nhật, hợp tác hay cơ hội thực tập? Hãy nhắn cho tôi nhé!
               </p>
             </div>
 
@@ -46,41 +46,41 @@ export default function Contact() {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="space-y-2">
                           <label htmlFor="name" className="text-sm font-medium">
-                            Name
+                            Họ và tên
                           </label>
-                          <Input id="name" name="name" placeholder="Your name" required />
+                          <Input id="name" name="name" placeholder="Tên của bạn" required />
                         </div>
                         <div className="space-y-2">
                           <label htmlFor="email" className="text-sm font-medium">
                             Email
                           </label>
-                          <Input id="email" name="email" type="email" placeholder="Your email" required />
+                          <Input id="email" name="email" type="email" placeholder="Email của bạn" required />
                         </div>
                       </div>
                       <div className="space-y-2">
                         <label htmlFor="subject" className="text-sm font-medium">
-                          Subject
+                          Tiêu đề
                         </label>
-                        <Input id="subject" name="subject" placeholder="Subject of your message" required />
+                        <Input id="subject" name="subject" placeholder="Tiêu đề tin nhắn" required />
                       </div>
                       <div className="space-y-2">
                         <label htmlFor="message" className="text-sm font-medium">
-                          Message
+                          Nội dung
                         </label>
                         <Textarea
                           id="message"
                           name="message"
-                          placeholder="Your message"
+                          placeholder="Nội dung tin nhắn"
                           className="min-h-[150px]"
                           required
                         />
                       </div>
                       <Button type="submit" className="w-full">
-                        Send Message
+                        Gửi tin nhắn
                       </Button>
                       <noscript>
                         <p className="text-sm text-center text-muted-foreground mt-2">
-                          Please enable JavaScript to use the form, or email me directly.
+                          Vui lòng bật JavaScript để dùng biểu mẫu, hoặc gửi email trực tiếp cho tôi.
                         </p>
                       </noscript>
                     </form>
@@ -114,8 +114,8 @@ export default function Contact() {
 
                 <Card>
                   <CardContent className="p-6">
-                    <h3 className="font-medium mb-2">Connect with me</h3>
-                    <p className="text-sm text-muted-foreground mb-4">Find me on these platforms</p>
+                    <h3 className="font-medium mb-2">Kết nối với tôi</h3>
+                    <p className="text-sm text-muted-foreground mb-4">Tìm tôi trên các nền tảng sau</p>
                     <div className="flex gap-4">
                       <Button variant="outline" size="icon" asChild>
                         <a href="https://github.com/maskeynihal" target="_blank" rel="noopener noreferrer">

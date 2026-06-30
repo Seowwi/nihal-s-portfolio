@@ -5,21 +5,21 @@ import ClientLayout from "./client"
 import { Suspense } from "react"
 
 export const metadata: Metadata = {
-  title: "Nihal Maskey | Senior Software Engineer",
+  title: "Nguyễn Minh Anh | Sinh viên ngành Ngôn ngữ Nhật",
   description:
-    "Portfolio of Nihal Maskey, a Senior Software Engineer specializing in JavaScript, TypeScript, React.js, Node.js, Laravel, and AWS.",
+    "Hồ sơ cá nhân của Nguyễn Minh Anh, sinh viên ngành Ngôn ngữ Nhật, đam mê tiếng Nhật, văn hóa Nhật Bản và biên - phiên dịch.",
   keywords: [
-    "Nihal Maskey",
-    "Software Engineer",
-    "Full Stack Developer",
-    "JavaScript",
-    "TypeScript",
-    "React",
-    "Node.js",
-    "AWS",
+    "Nguyễn Minh Anh",
+    "Ngôn ngữ Nhật",
+    "Tiếng Nhật",
+    "日本語",
+    "JLPT",
+    "Biên dịch",
+    "Phiên dịch",
+    "Sinh viên",
   ],
-  authors: [{ name: "Nihal Maskey" }],
-  creator: "Nihal Maskey",
+  authors: [{ name: "Nguyễn Minh Anh" }],
+  creator: "Nguyễn Minh Anh",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
@@ -29,27 +29,26 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    locale: "en_US",
-    url: "https://nihalmaskey.com",
-    title: "Nihal Maskey | Senior Software Engineer",
+    locale: "vi_VN",
+    url: "https://example.com",
+    title: "Nguyễn Minh Anh | Sinh viên ngành Ngôn ngữ Nhật",
     description:
-      "Portfolio of Nihal Maskey, a Senior Software Engineer specializing in JavaScript, TypeScript, React.js, Node.js, Laravel, and AWS.",
-    siteName: "Nihal Maskey Portfolio",
+      "Hồ sơ cá nhân của Nguyễn Minh Anh, sinh viên ngành Ngôn ngữ Nhật, đam mê tiếng Nhật và văn hóa Nhật Bản.",
+    siteName: "Hồ sơ Nguyễn Minh Anh",
     images: [
       {
         url: "/favicon.png",
         width: 512,
         height: 512,
-        alt: "Nihal Maskey Logo",
+        alt: "Nguyễn Minh Anh Logo",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Nihal Maskey | Senior Software Engineer",
+    title: "Nguyễn Minh Anh | Sinh viên ngành Ngôn ngữ Nhật",
     description:
-      "Portfolio of Nihal Maskey, a Senior Software Engineer specializing in JavaScript, TypeScript, React.js, Node.js, Laravel, and AWS.",
-    creator: "@maskeynihal",
+      "Hồ sơ cá nhân của Nguyễn Minh Anh, sinh viên ngành Ngôn ngữ Nhật, đam mê tiếng Nhật và văn hóa Nhật Bản.",
     images: ["/favicon.png"],
   },
   robots: {

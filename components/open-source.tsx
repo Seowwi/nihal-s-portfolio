@@ -1,30 +1,25 @@
 import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Github, GitPullRequest } from "lucide-react"
-import Link from "next/link"
+import { Users } from "lucide-react"
 
 export default function OpenSource() {
-  const contributions = [
+  const activities = [
     {
-      title: "DynamoDB Dashboard",
+      title: "Câu lạc bộ tiếng Nhật (日本語クラブ)",
       description:
-        "A web-based dashboard for visualizing and managing DynamoDB tables, with features for querying, filtering, and data manipulation.",
-      tags: ["Vue.js", "DynamoDB", "AWS", "Developer Tools"],
-      link: "https://github.com/kritish-dhaubanjar/dynamodb-dashboard",
+        "Thành viên tích cực của câu lạc bộ tiếng Nhật, tham gia tổ chức các buổi giao lưu, luyện hội thoại và sự kiện văn hóa.",
+      tags: ["会話", "Giao lưu", "Sự kiện"],
     },
     {
-      title: "Dev Auth Chrome Extension",
+      title: "Trao đổi ngôn ngữ với người bản xứ",
       description:
-        "A Chrome extension to update authentication tokens for testing applications with different user roles on local development environments.",
-      tags: ["JavaScript", "Chrome Extension", "Authentication", "Developer Tools"],
-      link: "https://github.com/kritish-dhaubanjar/dev-auth-chrome-extension",
+        "Tham gia chương trình language exchange, luyện nói hằng tuần với sinh viên Nhật Bản và hỗ trợ họ học tiếng Việt.",
+      tags: ["会話", "Nghe - Nói", "Văn hóa"],
     },
     {
-      title: "Nginxconfig.io by DigitalOcean",
+      title: "Tình nguyện viên sự kiện văn hóa Nhật",
       description:
-        "Contributed to DigitalOcean's open-source NGINX configuration generator, which helps users create optimized NGINX server configurations.",
-      tags: ["NGINX", "JavaScript", "DevOps", "Configuration"],
-      link: "https://github.com/digitalocean/nginxconfig.io/commits?author=maskeynihal",
+        "Hỗ trợ phiên dịch và hướng dẫn tại các lễ hội, hội chợ văn hóa Nhật Bản tổ chức tại trường và địa phương.",
+      tags: ["通訳", "Tình nguyện", "文化"],
     },
   ]
 
@@ -32,34 +27,29 @@ export default function OpenSource() {
     <div id="open-source">
       <div className="space-y-12">
         <div className="space-y-4 text-center">
-          <h3 className="text-2xl font-bold tracking-tighter sm:text-3xl">Open Source Contributions</h3>
+          <h3 className="text-2xl font-bold tracking-tighter sm:text-3xl">Hoạt động ngoại khóa · 課外活動</h3>
           <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg/relaxed lg:text-base/relaxed">
-            Projects I've contributed to in the open source community
+            Các hoạt động giúp tôi rèn luyện tiếng Nhật và hiểu thêm về văn hóa Nhật Bản
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-          {contributions.map((contribution, index) => (
+          {activities.map((activity, index) => (
             <div key={index}>
               <Card className="h-full flex flex-col">
                 <CardContent className="p-6 flex-1 flex flex-col">
                   <div className="mb-4">
-                    <GitPullRequest className="h-8 w-8 text-primary" />
+                    <Users className="h-8 w-8 text-primary" />
                   </div>
-                  <h3 className="text-lg font-bold mb-2">{contribution.title}</h3>
-                  <p className="text-sm text-muted-foreground mb-4 flex-1">{contribution.description}</p>
-                  <div className="flex flex-wrap gap-1 mb-4">
-                    {contribution.tags.map((tag, i) => (
+                  <h3 className="text-lg font-bold mb-2">{activity.title}</h3>
+                  <p className="text-sm text-muted-foreground mb-4 flex-1">{activity.description}</p>
+                  <div className="flex flex-wrap gap-1">
+                    {activity.tags.map((tag, i) => (
                       <span key={i} className="text-xs bg-primary/10 px-2 py-1 rounded-full">
                         {tag}
                       </span>
                     ))}
                   </div>
-                  <Button variant="outline" size="sm" asChild className="w-full">
-                    <Link href={contribution.link} target="_blank" rel="noopener noreferrer">
-                      <Github className="mr-2 h-4 w-4" /> View on GitHub
-                    </Link>
-                  </Button>
                 </CardContent>
               </Card>
             </div>

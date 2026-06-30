@@ -11,15 +11,12 @@ import { usePathname } from "next/navigation"
 import { motion } from "framer-motion"
 import Link from "next/link"
 
-// Updated nav items - removed Skills as it's now part of Experience
 const navItems = [
-  { name: "Home", href: "#home" },
-  { name: "About", href: "#about" },
-  { name: "Experience", href: "#experience" },
-  { name: "Projects", href: "#projects" },
-  { name: "Education", href: "#education" },
-  { name: "Blog", href: "#blog" },
-  { name: "Contact Me", href: "#contact" },
+  { name: "Trang chủ", href: "#home" },
+  { name: "Giới thiệu", href: "#about" },
+  { name: "Bài tập", href: "#projects" },
+  { name: "Học vấn", href: "#education" },
+  { name: "Liên hệ", href: "#contact" },
 ]
 
 export default function Header() {
@@ -33,7 +30,7 @@ export default function Header() {
     const sections = navItems.map((item) => item.href.substring(1))
 
     // Add the sections that are not in the navbar but still need to be detected
-    const allSections = [...sections, "open-source", "skills"]
+    const allSections = [...sections, "open-source"]
 
     // Find the section that is currently in view
     for (let i = allSections.length - 1; i >= 0; i--) {
@@ -45,7 +42,6 @@ export default function Header() {
           // Map to the closest navbar item if it's not in the navbar
           const sectionId = allSections[i]
           if (sectionId === "open-source") return "projects"
-          if (sectionId === "skills") return "experience"
           if (!sections.includes(sectionId)) return "home"
           return sectionId
         }
@@ -100,7 +96,7 @@ export default function Header() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <span className="text-2xl font-bold gradient-text">NM</span>
+            <span className="text-2xl font-bold gradient-text">MA</span>
           </motion.div>
         </Link>
 
