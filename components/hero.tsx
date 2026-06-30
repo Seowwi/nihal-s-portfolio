@@ -11,45 +11,48 @@ export default function Hero() {
         <div className="flex flex-col items-center space-y-4 text-center">
           <div className="space-y-2">
             <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-              Hi, I&apos;m <span className="gradient-text">Nihal Maskey</span>
+              Xin chào, tôi là <span className="gradient-text">Nguyễn Minh Anh</span>
             </h1>
             <p className="mx-auto max-w-[700px] text-xl text-muted-foreground md:text-2xl">
               <span className="js-only">
-                <span>Senior Software Engineer</span>
+                <span>Sinh viên ngành Ngôn ngữ Nhật · 日本語学科の学生</span>
               </span>
               <noscript>
-                <span>Senior Software Engineer | Full Stack Developer | JavaScript Expert | AWS Specialist</span>
+                <span>Sinh viên ngành Ngôn ngữ Nhật | 日本語学科の学生</span>
               </noscript>
             </p>
           </div>
           <div className="max-w-[700px] text-muted-foreground">
-            <p className="text-lg">Building scalable, secure, and efficient systems with over 5 years of experience</p>
+            <p className="text-lg">
+              Đam mê tiếng Nhật và văn hóa Nhật Bản, hướng tới chứng chỉ JLPT N2 và công việc biên - phiên dịch
+              {" · 日本語と日本文化が大好きです"}
+            </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 mt-6">
             <Button asChild size="lg" className="rounded-full">
-              <Link href="#contact">Get In Touch</Link>
+              <Link href="#contact">Liên hệ với tôi</Link>
             </Button>
             <Button asChild variant="outline" size="lg" className="rounded-full">
-              <a href="https://resume.nihal.com.np/nihal_maskey.pdf" target="_blank" rel="noopener noreferrer">
-                <Download className="mr-2 h-4 w-4" /> Download Resume
+              <a href="#" target="_blank" rel="noopener noreferrer">
+                <Download className="mr-2 h-4 w-4" /> Tải CV
               </a>
             </Button>
           </div>
           <div className="flex gap-4 mt-6">
             <Button variant="ghost" size="icon" asChild>
-              <Link href="https://github.com/maskeynihal" target="_blank" rel="noopener noreferrer">
+              <Link href="https://github.com" target="_blank" rel="noopener noreferrer">
                 <Github className="h-5 w-5" />
                 <span className="sr-only">GitHub</span>
               </Link>
             </Button>
             <Button variant="ghost" size="icon" asChild>
-              <Link href="https://linkedin.com/in/maskeynihal" target="_blank" rel="noopener noreferrer">
+              <Link href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
                 <Linkedin className="h-5 w-5" />
                 <span className="sr-only">LinkedIn</span>
               </Link>
             </Button>
             <Button variant="ghost" size="icon" asChild>
-              <Link href="mailto:contact@nihal.com.np">
+              <Link href="mailto:minhanh@example.com">
                 <Mail className="h-5 w-5" />
                 <span className="sr-only">Email</span>
               </Link>

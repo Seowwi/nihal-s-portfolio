@@ -1,27 +1,27 @@
 import { Card, CardContent } from "@/components/ui/card"
-import { Code2, Globe, Server, Users } from "lucide-react"
+import { BookOpen, Globe, Languages, PenTool } from "lucide-react"
 
 export default function About() {
   const features = [
     {
-      icon: <Code2 className="h-10 w-10 text-primary" />,
-      title: "Full Stack Development",
-      description: "Expertise in JavaScript, TypeScript, React.js, Node.js, and Laravel",
+      icon: <Languages className="h-10 w-10 text-primary" />,
+      title: "Tiếng Nhật · 日本語",
+      description: "Trình độ JLPT N3, đang luyện thi N2; thành thạo Hiragana, Katakana và hơn 1000 chữ Kanji",
     },
     {
-      icon: <Server className="h-10 w-10 text-primary" />,
-      title: "Cloud Solutions",
-      description: "Proficient with AWS services including SQS, EventBridge, Lambda, and Step Functions",
-    },
-    {
-      icon: <Users className="h-10 w-10 text-primary" />,
-      title: "Team Leadership",
-      description: "Led diverse teams of 15+ members across development, design, DevOps, and QA",
+      icon: <PenTool className="h-10 w-10 text-primary" />,
+      title: "Biên - Phiên dịch · 翻訳・通訳",
+      description: "Thực hành dịch Việt - Nhật cho văn bản, hội thoại và phụ đề video",
     },
     {
       icon: <Globe className="h-10 w-10 text-primary" />,
-      title: "Global Collaboration",
-      description: "Coordinated with remote teams across the US, Australia, and Nepal",
+      title: "Văn hóa Nhật Bản · 日本文化",
+      description: "Tìm hiểu văn hóa, lịch sử và phong tục giao tiếp trong môi trường công sở Nhật",
+    },
+    {
+      icon: <BookOpen className="h-10 w-10 text-primary" />,
+      title: "Ngoại ngữ khác · その他の言語",
+      description: "Tiếng Anh giao tiếp tốt (IELTS 6.5), hỗ trợ cho việc học và nghiên cứu ngôn ngữ",
     },
   ]
 
@@ -31,20 +31,19 @@ export default function About() {
         <div className="container px-4 md:px-6 mx-auto">
           <div className="space-y-12">
             <div className="space-y-4 text-center">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">About Me</h2>
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Giới thiệu · 自己紹介</h2>
               <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Experienced Senior Software Engineer with over five years of expertise as a Full Stack Developer,
-                specializing in JavaScript, TypeScript, React.js, Node.js, Laravel, and AWS.
+                Tôi là sinh viên năm ba ngành Ngôn ngữ Nhật, yêu thích tiếng Nhật và văn hóa Nhật Bản, mong muốn trở
+                thành biên - phiên dịch viên chuyên nghiệp.
               </p>
             </div>
 
             <div className="mx-auto max-w-3xl text-center">
               <p className="text-muted-foreground md:text-lg/relaxed lg:text-base/relaxed xl:text-lg/relaxed">
-                Skilled in designing scalable, secure, and efficient systems, with a proven track record of
-                collaborating with remote, cross-functional teams across the US, Australia, and Nepal. Demonstrated
-                success in delivering impactful solutions within highly regulated environments, including healthcare
-                projects, with expertise in HIPAA and SOC2 compliance. Proficient in optimizing system performance and
-                mentoring teams to achieve sustained technical excellence.
+                Tôi bắt đầu học tiếng Nhật từ năm nhất đại học và hiện đạt trình độ JLPT N3, đang nỗ lực luyện thi N2.
+                Bên cạnh việc học trên lớp, tôi tích cực tham gia câu lạc bộ tiếng Nhật, trao đổi với người bản xứ và
+                thực hành dịch thuật. Mục tiêu của tôi là sử dụng thành thạo tiếng Nhật để kết nối văn hóa Việt - Nhật
+                và theo đuổi sự nghiệp biên - phiên dịch.
               </p>
             </div>
 
