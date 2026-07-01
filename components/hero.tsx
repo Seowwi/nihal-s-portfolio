@@ -3,60 +3,56 @@
 import { Button } from "@/components/ui/button"
 import { ArrowUpCircle, Download, Github, Linkedin, Mail } from "lucide-react"
 import Link from "next/link"
+import { useLanguage } from "@/contexts/LanguageContext"
+
+import { motion } from "framer-motion"
 
 export default function Hero() {
+  const { t } = useLanguage()
+  const heroData = t('hero')
+
   return (
-    <section id="home" className="py-20 md:py-32 flex flex-col items-center justify-center min-h-[90vh]">
-      <div className="container px-4 md:px-6 mx-auto">
+    <section id="home" className="py-20 md:py-32 flex flex-col items-center justify-center min-h-[90vh] relative overflow-hidden">
+      {/* Decorative Japanese motif background circle */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gradient-to-tr from-primary/10 to-transparent blur-3xl -z-10 pointer-events-none"></div>
+
+      <div className="container px-4 md:px-6 mx-auto relative z-10">
         <div className="flex flex-col items-center space-y-4 text-center">
-          <div className="space-y-2">
-            <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-              はじめまして、<span className="gradient-text">グエン・ミン・アイン</span>です
-            </h1>
-            <p className="mx-auto max-w-[700px] text-xl text-muted-foreground md:text-2xl">
-              <span className="js-only">
-                <span>日本語学科の学生</span>
+          <div className="space-y-4">
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl/none"
+            >
+              {heroData.greeting}
+              <br className="md:hidden" />
+              <span className="inline-block">
+                <span className="gradient-text bg-clip-text text-transparent bg-gradient-to-r from-primary via-pink-400 to-primary drop-shadow-sm">{heroData.name}</span>
+                {heroData.suffix}
               </span>
-              <noscript>
-                <span>日本語学科の学生</span>
-              </noscript>
-            </p>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+              className="mx-auto max-w-[700px] text-xl text-muted-foreground md:text-2xl font-light tracking-wide"
+            >
+              {heroData.role}
+            </motion.p>
           </div>
-          <div className="max-w-[700px] text-muted-foreground">
-            <p className="text-lg">日本語と日本文化が大好きで、JLPT N2合格と翻訳・通訳の仕事を目指しています。</p>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-4 mt-6">
-            <Button asChild size="lg" className="rounded-full">
-              <Link href="#contact">お問い合わせ</Link>
-            </Button>
-            <Button asChild variant="outline" size="lg" className="rounded-full">
-              <a href="#" target="_blank" rel="noopener noreferrer">
-                <Download className="mr-2 h-4 w-4" /> 履歴書をダウンロード
-              </a>
-            </Button>
-          </div>
-          <div className="flex gap-4 mt-6">
-            <Button variant="ghost" size="icon" asChild>
-              <Link href="https://github.com" target="_blank" rel="noopener noreferrer">
-                <Github className="h-5 w-5" />
-                <span className="sr-only">GitHub</span>
-              </Link>
-            </Button>
-            <Button variant="ghost" size="icon" asChild>
-              <Link href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-                <Linkedin className="h-5 w-5" />
-                <span className="sr-only">LinkedIn</span>
-              </Link>
-            </Button>
-            <Button variant="ghost" size="icon" asChild>
-              <Link href="mailto:minhanh@example.com">
-                <Mail className="h-5 w-5" />
-                <span className="sr-only">Email</span>
-              </Link>
-            </Button>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+            className="max-w-[700px] text-muted-foreground"
+          >
+            <p className="text-lg leading-relaxed">{heroData.description}</p>
+          </motion.div>
+
         </div>
-        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 hidden md:block js-only">
+        <div className="fixed bottom-8 right-8 z-50 hidden md:block js-only">
           <Link
             href="#"
             onClick={(e) => {

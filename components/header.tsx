@@ -10,13 +10,14 @@ import { cn } from "@/lib/utils"
 import { usePathname } from "next/navigation"
 import { motion } from "framer-motion"
 import Link from "next/link"
+import { useLanguage } from "@/contexts/LanguageContext"
+import { Language } from "@/lib/translations"
 
-const navItems = [
-  { name: "ホーム", href: "#home" },
-  { name: "自己紹介", href: "#about" },
-  { name: "課題", href: "#projects" },
-  { name: "学歴", href: "#education" },
-  { name: "お問い合わせ", href: "#contact" },
+const navKeys = [
+  { key: "home", href: "#home" },
+  { key: "about", href: "#about" },
+  { key: "education", href: "#education" },
+  { key: "projects", href: "#projects" },
 ]
 
 export default function Header() {
@@ -24,6 +25,12 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState("home")
   const pathname = usePathname()
+  const { language, setLanguage, t } = useLanguage()
+
+  const navItems = navKeys.map(item => ({
+    ...item,
+    name: t("header", item.key)
+  }))
 
   // Function to determine which section is currently in view
   const determineActiveSection = useCallback(() => {
@@ -50,7 +57,7 @@ export default function Header() {
 
     // Default to home if no section is in view
     return "home"
-  }, [])
+  }, [navItems])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -80,6 +87,10 @@ export default function Header() {
     }
   }
 
+  const toggleLanguage = () => {
+    setLanguage(language === 'ja' ? 'vi' : 'ja')
+  }
+
   return (
     <header
       className={cn(
@@ -87,19 +98,7 @@ export default function Header() {
         scrolled ? "bg-background/70 backdrop-blur-lg shadow-sm border-b border-border/50" : "bg-transparent",
       )}
     >
-      <div className="container flex h-16 items-center justify-between">
-        <Link href="/" className="flex items-center space-x-2">
-          <motion.div
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <span className="text-2xl font-bold gradient-text">MA</span>
-          </motion.div>
-        </Link>
-
+      <div className="container flex h-16 items-center justify-center relative">
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6">
           <div className="relative flex space-x-4 items-center">
@@ -108,7 +107,7 @@ export default function Header() {
 
               return (
                 <motion.div
-                  key={item.name}
+                  key={item.key}
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.1 }}
@@ -125,7 +124,7 @@ export default function Header() {
                     href={item.href}
                     onClick={(e) => scrollToSection(e, item.href)}
                     className={cn(
-                      "text-sm font-medium transition-colors px-3 py-2 rounded-md relative",
+                      "text-sm font-medium transition-colors px-3 py-2 rounded-md relative whitespace-nowrap",
                       isActive ? "text-primary font-semibold" : "text-muted-foreground hover:text-foreground",
                     )}
                   >
@@ -142,11 +141,21 @@ export default function Header() {
               )
             })}
           </div>
-          <ModeToggle />
         </nav>
 
-        {/* Mobile Navigation Toggle */}
-        <div className="flex items-center md:hidden space-x-4">
+        {/* Right Actions (Desktop) */}
+        <div className="hidden md:flex items-center space-x-2 absolute right-4">
+          <Button variant="ghost" size="sm" onClick={toggleLanguage} className="font-semibold">
+            {language === 'ja' ? 'VI' : 'JA'}
+          </Button>
+          <ModeToggle />
+        </div>
+
+        {/* Mobile Navigation Toggle (Mobile) */}
+        <div className="flex items-center md:hidden space-x-2 absolute right-4">
+          <Button variant="ghost" size="sm" onClick={toggleLanguage} className="font-semibold px-2">
+            {language === 'ja' ? 'VI' : 'JA'}
+          </Button>
           <ModeToggle />
           <Button
             variant="ghost"
@@ -184,7 +193,7 @@ export default function Header() {
 
               return (
                 <Link
-                  key={item.name}
+                  key={item.key}
                   href={item.href}
                   onClick={(e) => scrollToSection(e, item.href)}
                   className={cn(
