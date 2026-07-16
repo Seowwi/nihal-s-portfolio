@@ -10,6 +10,7 @@ import AnimatedBackground from "@/components/animated-background"
 import CherryBlossoms from "@/components/cherry-blossom"
 import NoScriptStyles from "@/components/noscript-styles"
 import { LanguageProvider } from "@/contexts/LanguageContext"
+import { EditableProvider } from "@/contexts/EditableContext"
 
 const fontSans = FontSans({
   subsets: ["latin", "vietnamese"],
@@ -39,19 +40,21 @@ export default function ClientLayout({
       </head>
       <body className={cn("min-h-screen bg-background font-mono antialiased", fontSans.variable)}>
         <LanguageProvider>
-          <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
-            <div className="relative flex min-h-screen flex-col">
-              <noscript>
-                <div className="bg-yellow-100 dark:bg-yellow-900 p-4 text-center text-sm">
-                  For the best experience, please enable JavaScript. Some features may be limited without it.
-                </div>
-              </noscript>
-              <AnimatedBackground />
-              <CherryBlossoms />
-              <Header />
-              <main className="flex-1 relative z-10">{children}</main>
-            </div>
-          </ThemeProvider>
+          <EditableProvider>
+            <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
+              <div className="relative flex min-h-screen flex-col">
+                <noscript>
+                  <div className="bg-yellow-100 dark:bg-yellow-900 p-4 text-center text-sm">
+                    For the best experience, please enable JavaScript. Some features may be limited without it.
+                  </div>
+                </noscript>
+                <AnimatedBackground />
+                <CherryBlossoms />
+                <Header />
+                <main className="flex-1 relative z-10">{children}</main>
+              </div>
+            </ThemeProvider>
+          </EditableProvider>
         </LanguageProvider>
       </body>
     </html>

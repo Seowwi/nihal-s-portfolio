@@ -5,12 +5,13 @@ import type React from "react"
 import { useState, useEffect, useCallback } from "react"
 import { ModeToggle } from "./mode-toggle"
 import { Button } from "@/components/ui/button"
-import { Menu, X } from "lucide-react"
+import { Menu, X, Pencil, PencilOff, RotateCcw } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { usePathname } from "next/navigation"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import { useLanguage } from "@/contexts/LanguageContext"
+import { useEditable } from "@/contexts/EditableContext"
 import { Language } from "@/lib/translations"
 
 const navKeys = [
@@ -26,6 +27,7 @@ export default function Header() {
   const [activeSection, setActiveSection] = useState("home")
   const pathname = usePathname()
   const { language, setLanguage, t } = useLanguage()
+  const { isEditMode, toggleEditMode, resetContent } = useEditable()
 
   const navItems = navKeys.map(item => ({
     ...item,
@@ -92,124 +94,173 @@ export default function Header() {
   }
 
   return (
-    <header
-      className={cn(
-        "fixed top-0 z-50 w-full transition-all duration-300",
-        scrolled ? "bg-background/70 backdrop-blur-lg shadow-sm border-b border-border/50" : "bg-transparent",
-      )}
-    >
-      <div className="container flex h-16 items-center justify-center relative">
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-6">
-          <div className="relative flex space-x-4 items-center">
-            {navItems.map((item, index) => {
-              const isActive = activeSection === item.href.substring(1)
+    <>
+      <header
+        className={cn(
+          "fixed top-0 z-50 w-full transition-all duration-300",
+          scrolled ? "bg-background/70 backdrop-blur-lg shadow-sm border-b border-border/50" : "bg-transparent",
+        )}
+      >
+        <div className="container flex h-16 items-center justify-center relative">
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-6">
+            <div className="relative flex space-x-4 items-center">
+              {navItems.map((item, index) => {
+                const isActive = activeSection === item.href.substring(1)
 
-              return (
-                <motion.div
-                  key={item.key}
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: index * 0.1 }}
-                  className="relative"
-                >
-                  {isActive && (
-                    <motion.div
-                      layoutId="activeSection"
-                      className="absolute inset-0 bg-primary/10 rounded-md -z-10"
-                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    />
-                  )}
-                  <Link
-                    href={item.href}
-                    onClick={(e) => scrollToSection(e, item.href)}
-                    className={cn(
-                      "text-sm font-medium transition-colors px-3 py-2 rounded-md relative whitespace-nowrap",
-                      isActive ? "text-primary font-semibold" : "text-muted-foreground hover:text-foreground",
-                    )}
+                return (
+                  <motion.div
+                    key={item.key}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                    className="relative"
                   >
-                    {item.name}
                     {isActive && (
                       <motion.div
-                        className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
-                        layoutId="underline"
+                        layoutId="activeSection"
+                        className="absolute inset-0 bg-primary/10 rounded-md -z-10"
                         transition={{ type: "spring", stiffness: 300, damping: 30 }}
                       />
                     )}
-                  </Link>
-                </motion.div>
-              )
-            })}
-          </div>
-        </nav>
-
-        {/* Right Actions (Desktop) */}
-        <div className="hidden md:flex items-center space-x-2 absolute right-4">
-          <Button variant="ghost" size="sm" onClick={toggleLanguage} className="font-semibold">
-            {language === 'ja' ? 'VI' : 'JA'}
-          </Button>
-          <ModeToggle />
-        </div>
-
-        {/* Mobile Navigation Toggle (Mobile) */}
-        <div className="flex items-center md:hidden space-x-2 absolute right-4">
-          <Button variant="ghost" size="sm" onClick={toggleLanguage} className="font-semibold px-2">
-            {language === 'ja' ? 'VI' : 'JA'}
-          </Button>
-          <ModeToggle />
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle Menu"
-            className="relative"
-          >
-            <motion.div
-              initial={false}
-              animate={isOpen ? "open" : "closed"}
-              variants={{
-                open: { rotate: 180 },
-                closed: { rotate: 0 },
-              }}
-              transition={{ duration: 0.3 }}
-            >
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </motion.div>
-          </Button>
-        </div>
-      </div>
-
-      {/* Mobile Navigation Menu */}
-      <motion.div
-        className="md:hidden overflow-hidden"
-        initial={{ height: 0 }}
-        animate={{ height: isOpen ? "auto" : 0 }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
-      >
-        <div className="container py-4 bg-background/95 backdrop-blur-sm">
-          <nav className="flex flex-col space-y-4">
-            {navItems.map((item) => {
-              const isActive = activeSection === item.href.substring(1)
-
-              return (
-                <Link
-                  key={item.key}
-                  href={item.href}
-                  onClick={(e) => scrollToSection(e, item.href)}
-                  className={cn(
-                    "text-sm font-medium transition-colors py-2 px-3 rounded-md",
-                    isActive
-                      ? "bg-primary/10 text-primary font-semibold"
-                      : "text-muted-foreground hover:bg-muted/50 hover:text-foreground",
-                  )}
-                >
-                  {item.name}
-                </Link>
-              )
-            })}
+                    <Link
+                      href={item.href}
+                      onClick={(e) => scrollToSection(e, item.href)}
+                      className={cn(
+                        "text-sm font-medium transition-colors px-3 py-2 rounded-md relative whitespace-nowrap",
+                        isActive ? "text-primary font-semibold" : "text-muted-foreground hover:text-foreground",
+                      )}
+                    >
+                      {item.name}
+                      {isActive && (
+                        <motion.div
+                          className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
+                          layoutId="underline"
+                          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                        />
+                      )}
+                    </Link>
+                  </motion.div>
+                )
+              })}
+            </div>
           </nav>
+
+          {/* Right Actions (Desktop) */}
+          <div className="hidden md:flex items-center space-x-2 absolute right-4">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={toggleEditMode}
+              className={cn(
+                "edit-mode-btn font-semibold gap-1.5 transition-all",
+                isEditMode && "active"
+              )}
+              title={isEditMode ? "Tắt chế độ chỉnh sửa" : "Bật chế độ chỉnh sửa"}
+            >
+              {isEditMode ? <PencilOff size={14} /> : <Pencil size={14} />}
+              <span className="text-xs">{isEditMode ? 'Done' : 'Edit'}</span>
+            </Button>
+            <Button variant="ghost" size="sm" onClick={toggleLanguage} className="font-semibold">
+              {language === 'ja' ? 'VI' : 'JA'}
+            </Button>
+            <ModeToggle />
+          </div>
+
+          {/* Mobile Navigation Toggle (Mobile) */}
+          <div className="flex items-center md:hidden space-x-2 absolute right-4">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleEditMode}
+              className={cn(
+                "edit-mode-btn h-8 w-8",
+                isEditMode && "active"
+              )}
+            >
+              {isEditMode ? <PencilOff size={16} /> : <Pencil size={16} />}
+            </Button>
+            <Button variant="ghost" size="sm" onClick={toggleLanguage} className="font-semibold px-2">
+              {language === 'ja' ? 'VI' : 'JA'}
+            </Button>
+            <ModeToggle />
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label="Toggle Menu"
+              className="relative"
+            >
+              <motion.div
+                initial={false}
+                animate={isOpen ? "open" : "closed"}
+                variants={{
+                  open: { rotate: 180 },
+                  closed: { rotate: 0 },
+                }}
+                transition={{ duration: 0.3 }}
+              >
+                {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              </motion.div>
+            </Button>
+          </div>
         </div>
-      </motion.div>
-    </header>
+
+        {/* Mobile Navigation Menu */}
+        <motion.div
+          className="md:hidden overflow-hidden"
+          initial={{ height: 0 }}
+          animate={{ height: isOpen ? "auto" : 0 }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+        >
+          <div className="container py-4 bg-background/95 backdrop-blur-sm">
+            <nav className="flex flex-col space-y-4">
+              {navItems.map((item) => {
+                const isActive = activeSection === item.href.substring(1)
+
+                return (
+                  <Link
+                    key={item.key}
+                    href={item.href}
+                    onClick={(e) => scrollToSection(e, item.href)}
+                    className={cn(
+                      "text-sm font-medium transition-colors py-2 px-3 rounded-md",
+                      isActive
+                        ? "bg-primary/10 text-primary font-semibold"
+                        : "text-muted-foreground hover:bg-muted/50 hover:text-foreground",
+                    )}
+                  >
+                    {item.name}
+                  </Link>
+                )
+              })}
+            </nav>
+          </div>
+        </motion.div>
+      </header>
+
+      {/* Edit Mode Banner */}
+      <AnimatePresence>
+        {isEditMode && (
+          <motion.div
+            className="edit-mode-banner"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Pencil size={14} />
+            <span>Chế độ chỉnh sửa</span>
+            <button onClick={resetContent}>
+              <RotateCcw size={12} style={{ display: 'inline', marginRight: 4 }} />
+              Reset
+            </button>
+            <button onClick={toggleEditMode}>
+              Xong
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   )
 }

@@ -1,14 +1,17 @@
 "use client"
 
 import { Card, CardContent } from "@/components/ui/card"
-import { BookOpen, Globe, MessageSquare, Target } from "lucide-react"
+import { BookOpen, Globe, MessageSquare, Target, X, Eye } from "lucide-react"
 import { useLanguage } from "@/contexts/LanguageContext"
 import Image from "next/image"
 import { motion } from "framer-motion"
+import EditableText from "@/components/editable-text"
+import { useEditable } from "@/contexts/EditableContext"
 
 export default function About() {
   const { t } = useLanguage()
   const aboutData = t('about')
+  const { isEditMode, isItemHidden, hideItem, showItem } = useEditable()
 
   // Icons array to match features
   const featureIcons = [
@@ -26,25 +29,34 @@ export default function About() {
         
         <div className="container px-4 md:px-6 mx-auto relative z-10">
           <div className="text-center mb-16">
-            <motion.h2 
+            <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false, amount: 0.1 }}
               transition={{ duration: 0.5 }}
-              className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl inline-block relative"
             >
-              {aboutData.title}
-              <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-12 h-1 bg-primary rounded-full"></div>
-            </motion.h2>
-            <motion.p 
+              <EditableText
+                path="about.title"
+                defaultValue={aboutData.title}
+                as="h2"
+                className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl inline-block relative"
+              />
+              <div className="w-12 h-1 bg-primary rounded-full mx-auto mt-3"></div>
+            </motion.div>
+            <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false, amount: 0.1 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="mt-6 mx-auto max-w-[700px] text-muted-foreground md:text-xl"
+              className="mt-6 mx-auto max-w-[700px]"
             >
-              {aboutData.description}
-            </motion.p>
+              <EditableText
+                path="about.description"
+                defaultValue={aboutData.description}
+                as="p"
+                className="text-muted-foreground md:text-xl"
+              />
+            </motion.div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -83,33 +95,69 @@ export default function About() {
             >
               <div className="space-y-4">
                 {aboutData.paragraphs.map((paragraph: string, index: number) => (
-                  <p key={index} className="text-lg leading-relaxed text-muted-foreground/90">
-                    {paragraph}
-                  </p>
+                  <EditableText
+                    key={index}
+                    path={`about.paragraphs.${index}`}
+                    defaultValue={paragraph}
+                    as="p"
+                    className="text-lg leading-relaxed text-muted-foreground/90"
+                    multiline
+                  />
                 ))}
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
-                {aboutData.features.map((feature: any, index: number) => (
-                  <motion.div 
-                    key={index} 
-                    whileHover={{ y: -5 }}
-                    className="group"
-                  >
-                    <Card className="h-full border-border/50 bg-background/50 backdrop-blur-sm transition-all duration-300 hover:shadow-md hover:border-primary/50 overflow-hidden relative">
-                      <div className="absolute top-0 right-0 w-16 h-16 bg-primary/5 rounded-bl-full -z-10 transition-transform duration-500 group-hover:scale-[3] group-hover:bg-primary/5"></div>
-                      <CardContent className="p-5 flex flex-col space-y-3">
-                        <div className="p-2.5 rounded-xl bg-primary/10 w-fit text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300 shadow-sm">
-                          {featureIcons[index % featureIcons.length]}
-                        </div>
-                        <div>
-                          <h3 className="font-bold text-base mb-1">{feature.title}</h3>
-                          <p className="text-sm text-muted-foreground leading-snug">{feature.description}</p>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
+                {aboutData.features.map((feature: any, index: number) => {
+                  const hidden = isItemHidden('about.features', index);
+                  if (hidden && !isEditMode) return null;
+
+                  return (
+                    <motion.div 
+                      key={index} 
+                      whileHover={{ y: -5 }}
+                      className={`group ${hidden ? 'opacity-40' : ''}`}
+                    >
+                      <Card className={`h-full border-border/50 bg-background/50 backdrop-blur-sm transition-all duration-300 hover:shadow-md hover:border-primary/50 overflow-hidden relative ${hidden ? 'ring-2 ring-dashed ring-red-400/50' : ''}`}>
+                        {/* Hide/Show button */}
+                        {isEditMode && (
+                          <button
+                            onClick={() => hidden ? showItem('about.features', index) : hideItem('about.features', index)}
+                            className={`absolute top-2 right-2 z-20 p-1.5 rounded-full transition-all duration-200 shadow-md ${
+                              hidden 
+                                ? 'bg-green-500 hover:bg-green-600 text-white' 
+                                : 'bg-red-500/80 hover:bg-red-600 text-white'
+                            }`}
+                            title={hidden ? 'Hiện lại' : 'Ẩn card này'}
+                          >
+                            {hidden ? <Eye size={12} /> : <X size={12} />}
+                          </button>
+                        )}
+
+                        <div className="absolute top-0 right-0 w-16 h-16 bg-primary/5 rounded-bl-full -z-10 transition-transform duration-500 group-hover:scale-[3] group-hover:bg-primary/5"></div>
+                        <CardContent className="p-5 flex flex-col space-y-3">
+                          <div className="p-2.5 rounded-xl bg-primary/10 w-fit text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300 shadow-sm">
+                            {featureIcons[index % featureIcons.length]}
+                          </div>
+                          <div>
+                            <EditableText
+                              path={`about.features.${index}.title`}
+                              defaultValue={feature.title}
+                              as="h3"
+                              className="font-bold text-base mb-1"
+                            />
+                            <EditableText
+                              path={`about.features.${index}.description`}
+                              defaultValue={feature.description}
+                              as="p"
+                              className="text-sm text-muted-foreground leading-snug"
+                              multiline
+                            />
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  );
+                })}
               </div>
             </motion.div>
           </div>

@@ -264,3 +264,195 @@ body {
 body.pdf-open header {
   transform: translateY(-100%);
 }
+
+/* ============================================
+   Editable Text Styles (Notion-like editing)
+   ============================================ */
+
+/* Wrapper when in edit mode - hover indicator */
+.editable-text-wrapper {
+  position: relative;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  border: 1px dashed transparent;
+}
+
+.editable-text-wrapper:hover {
+  border-color: hsl(var(--primary) / 0.4);
+}
+
+/* Only add bg on hover when NOT inside a gradient-text parent */
+.editable-text-wrapper:not(.editable-gradient):hover {
+  background-color: hsl(var(--primary) / 0.05);
+}
+
+/* Pencil icon on hover */
+.editable-icon {
+  display: none;
+  position: absolute;
+  top: -2px;
+  right: -6px;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  box-shadow: 0 2px 6px hsl(var(--primary) / 0.3);
+  z-index: 10;
+}
+
+.editable-text-wrapper:hover .editable-icon {
+  display: inline-flex;
+}
+
+/* Reset icon */
+.editable-reset-icon {
+  display: none;
+  position: absolute;
+  top: -2px;
+  right: 18px;
+  background: hsl(var(--muted));
+  color: hsl(var(--muted-foreground));
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 6px hsl(0 0% 0% / 0.1);
+  z-index: 10;
+  transition: all 0.15s ease;
+}
+
+.editable-reset-icon:hover {
+  background: hsl(var(--destructive));
+  color: hsl(var(--destructive-foreground));
+}
+
+.editable-text-wrapper:hover .editable-reset-icon {
+  display: inline-flex;
+}
+
+/* Editing state container */
+.editable-editing-container {
+  position: relative;
+}
+
+/* Input field styling */
+.editable-input {
+  width: 100%;
+  background: hsl(var(--background));
+  border: 2px solid hsl(var(--primary) / 0.5);
+  border-radius: 6px;
+  padding: 4px 8px;
+  font: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  color: hsl(var(--foreground));
+  outline: none;
+  transition: border-color 0.2s ease;
+  box-shadow: 0 0 0 3px hsl(var(--primary) / 0.1);
+  -webkit-text-fill-color: hsl(var(--foreground));
+}
+
+.editable-input:focus {
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 3px hsl(var(--primary) / 0.2);
+}
+
+/* Textarea styling */
+.editable-textarea {
+  width: 100%;
+  min-height: 80px;
+  background: hsl(var(--background));
+  border: 2px solid hsl(var(--primary) / 0.5);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  color: hsl(var(--foreground));
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.2s ease;
+  box-shadow: 0 0 0 3px hsl(var(--primary) / 0.1);
+  line-height: 1.6;
+  -webkit-text-fill-color: hsl(var(--foreground));
+}
+
+.editable-textarea:focus {
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 3px hsl(var(--primary) / 0.2);
+}
+
+/* Hint text below textarea */
+.editable-hint {
+  font-size: 11px;
+  color: hsl(var(--muted-foreground));
+  margin-top: 4px;
+  text-align: right;
+  font-style: italic;
+}
+
+/* Edit mode toggle button styles */
+.edit-mode-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.edit-mode-btn.active {
+  background: hsl(var(--primary) / 0.15);
+  color: hsl(var(--primary));
+}
+
+/* Edit mode banner */
+.edit-mode-banner {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  padding: 8px 20px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: 0 4px 20px hsl(var(--primary) / 0.4);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: slideUp 0.3s ease;
+}
+
+.edit-mode-banner button {
+  background: hsl(var(--primary-foreground) / 0.2);
+  border: none;
+  color: inherit;
+  padding: 4px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background 0.2s ease;
+}
+
+.edit-mode-banner button:hover {
+  background: hsl(var(--primary-foreground) / 0.3);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}

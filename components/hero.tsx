@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowUpCircle, Download, Github, Linkedin, Mail } from "lucide-react"
 import Link from "next/link"
 import { useLanguage } from "@/contexts/LanguageContext"
+import EditableText from "@/components/editable-text"
 
 import { motion } from "framer-motion"
 
@@ -25,22 +26,41 @@ export default function Hero() {
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl/none"
             >
-              {heroData.greeting}
+              <EditableText
+                path="hero.greeting"
+                defaultValue={heroData.greeting}
+                as="span"
+              />
               <br className="md:hidden" />
               <span className="inline-block">
-                <span className="gradient-text bg-clip-text text-transparent bg-gradient-to-r from-primary via-pink-400 to-primary drop-shadow-sm">{heroData.name}</span>
-                {heroData.suffix}
+                <span className="gradient-text bg-clip-text text-transparent bg-gradient-to-r from-primary via-pink-400 to-primary drop-shadow-sm">
+                  <EditableText
+                    path="hero.name"
+                    defaultValue={heroData.name}
+                    as="span"
+                    insideGradient
+                  />
+                </span>
+                <EditableText
+                  path="hero.suffix"
+                  defaultValue={heroData.suffix}
+                  as="span"
+                />
               </span>
             </motion.h1>
 
-            <motion.p
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
               className="mx-auto max-w-[700px] text-xl text-muted-foreground md:text-2xl font-light tracking-wide"
             >
-              {heroData.role}
-            </motion.p>
+              <EditableText
+                path="hero.role"
+                defaultValue={heroData.role}
+                as="p"
+              />
+            </motion.div>
           </div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -48,7 +68,13 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
             className="max-w-[700px] text-muted-foreground"
           >
-            <p className="text-lg leading-relaxed">{heroData.description}</p>
+            <EditableText
+              path="hero.description"
+              defaultValue={heroData.description}
+              as="p"
+              className="text-lg leading-relaxed"
+              multiline
+            />
           </motion.div>
 
         </div>
