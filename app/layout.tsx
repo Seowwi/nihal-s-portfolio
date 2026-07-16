@@ -5,7 +5,7 @@ import ClientLayout from "./client"
 import { Suspense } from "react"
 
 export const metadata: Metadata = {
-  title: "グエン・ミン・アイン | 日本語学科の学生",
+  title: "portfolio Huyền Xinh",
   description:
     "日本語学科の学生グエン・ミン・アインのポートフォリオ。日本語、日本文化、翻訳・通訳に情熱を注いでいます。",
   keywords: [
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "ja_JP",
     url: "https://example.com",
-    title: "グエン・ミン・アイン | 日本語学科の学生",
+    title: "portfolio Huyền Xinh",
     description:
       "日本語学科の学生グエン・ミン・アインのポートフォリオ。日本語と日本文化に情熱を注いでいます。",
     siteName: "グエン・ミン・アイン ポートフォリオ",
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "グエン・ミン・アイン | 日本語学科の学生",
+    title: "portfolio Huyền Xinh",
     description:
       "日本語学科の学生グエン・ミン・アインのポートフォリオ。日本語と日本文化に情熱を注いでいます。",
     images: ["/favicon.png"],
