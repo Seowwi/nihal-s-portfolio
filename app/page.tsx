@@ -7,9 +7,9 @@ import SectionDivider from "@/components/section-divider"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Nihal Maskey | Senior Software Engineer",
+  title: "portfolio Huyền Xinh",
   description:
-    "Portfolio of Nihal Maskey, a Senior Software Engineer specializing in JavaScript, TypeScript, React.js, Node.js, Laravel, and AWS.",
+    "Portfolio của Phan Thanh Huyền - Sinh viên Khoa Tiếng Nhật, đam mê tiếng Nhật và văn hóa Nhật Bản.",
 }
 
 export default function Home() {
