@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { writeFile, mkdir } from 'fs/promises';
-import path from 'path';
-import { existsSync } from 'fs';
+import { put } from '@vercel/blob';
 
 export async function POST(request: NextRequest) {
   try {
@@ -23,30 +21,23 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'File too large (max 10MB)' }, { status: 400 });
     }
 
-    // Create upload directory if not exists
-    const uploadDir = path.join(process.cwd(), 'public', 'files');
-    if (!existsSync(uploadDir)) {
-      await mkdir(uploadDir, { recursive: true });
-    }
-
     // Generate a safe filename: timestamp + sanitized original name
     const timestamp = Date.now();
     const safeName = file.name
       .replace(/[^a-zA-Z0-9._-]/g, '_')
       .replace(/_+/g, '_');
     const fileName = `${timestamp}_${safeName}`;
-    const filePath = path.join(uploadDir, fileName);
 
-    // Write file
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    await writeFile(filePath, buffer);
+    // Upload to Vercel Blob
+    const blob = await put(fileName, file, {
+      access: 'public',
+      contentType: file.type,
+    });
 
     // Return the public URL
-    const publicUrl = `/files/${fileName}`;
     return NextResponse.json({ 
       success: true, 
-      url: publicUrl,
+      url: blob.url,
       fileName: file.name,
       size: file.size 
     });
