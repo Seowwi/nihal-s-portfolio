@@ -31,36 +31,50 @@ export const EditableProvider = ({ children }: { children: React.ReactNode }) =>
   const [hiddenItems, setHiddenItems] = useState<HiddenItemsMap>({});
   const { language } = useLanguage();
 
-  // Load from localStorage on mount
+  // Load from DB on mount
   useEffect(() => {
+    const fetchFromDb = async () => {
+      try {
+        const response = await fetch('/api/store');
+        if (response.ok) {
+          const data = await response.json();
+          if (data.customContent && Object.keys(data.customContent).length > 0) {
+            setCustomContent(data.customContent);
+          }
+          if (data.hiddenItems && Object.keys(data.hiddenItems).length > 0) {
+            setHiddenItems(data.hiddenItems);
+          }
+        }
+      } catch (e) {
+        console.error('Failed to load custom content from DB:', e);
+      }
+    };
+    
+    fetchFromDb();
+  }, []);
+
+  // Save to DB when content changes
+  const saveToStorage = useCallback(async (content: Record<string, Record<string, string>>) => {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        setCustomContent(JSON.parse(saved));
-      }
-      const savedHidden = localStorage.getItem(HIDDEN_STORAGE_KEY);
-      if (savedHidden) {
-        setHiddenItems(JSON.parse(savedHidden));
-      }
+      await fetch('/api/store', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ customContent: content }),
+      });
     } catch (e) {
-      console.error('Failed to load custom content:', e);
+      console.error('Failed to save custom content to DB:', e);
     }
   }, []);
 
-  // Save to localStorage when content changes
-  const saveToStorage = useCallback((content: Record<string, Record<string, string>>) => {
+  const saveHiddenToStorage = useCallback(async (hidden: HiddenItemsMap) => {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(content));
+      await fetch('/api/store', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ hiddenItems: hidden }),
+      });
     } catch (e) {
-      console.error('Failed to save custom content:', e);
-    }
-  }, []);
-
-  const saveHiddenToStorage = useCallback((hidden: HiddenItemsMap) => {
-    try {
-      localStorage.setItem(HIDDEN_STORAGE_KEY, JSON.stringify(hidden));
-    } catch (e) {
-      console.error('Failed to save hidden items:', e);
+      console.error('Failed to save hidden items to DB:', e);
     }
   }, []);
 
