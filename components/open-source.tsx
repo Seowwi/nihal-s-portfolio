@@ -138,13 +138,6 @@ export default function OpenSource() {
                                 className="text-sm text-muted-foreground mb-4 flex-1"
                                 multiline
                               />
-                              <div className="flex flex-wrap gap-1 mt-auto">
-                                {activity.tags.map((tag: string, i: number) => (
-                                  <span key={i} className="text-xs bg-primary/10 px-2 py-1 rounded-full">
-                                    {tag}
-                                  </span>
-                                ))}
-                              </div>
                             </CardContent>
                           </Card>
                         </div>
