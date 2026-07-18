@@ -15,6 +15,10 @@ export default function About() {
   const { isEditMode, isItemHidden, hideItem, showItem, getContent, setContent } = useEditable()
   
   const currentImageUrl = getContent('about.image', '/images/about-illustration.png');
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+
+  const displayUrl = previewUrl || currentImageUrl;
 
   // Icons array to match features
   const featureIcons = [
@@ -75,11 +79,17 @@ export default function About() {
                 <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-primary/5 rounded-2xl"></div>
                 <div className="relative w-full h-full rounded-xl overflow-hidden">
                   <Image 
-                    src={currentImageUrl} 
+                    src={displayUrl} 
                     alt="Japanese Culture Abstract" 
                     fill 
-                    className="object-cover hover:scale-105 transition-transform duration-700"
+                    className={`object-cover transition-all duration-700 ${isUploadingImage ? 'scale-105 blur-sm brightness-75' : 'hover:scale-105'}`}
                   />
+                  {isUploadingImage && (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/20 z-10">
+                      <Loader2 className="w-8 h-8 text-white animate-spin mb-2" />
+                      <span className="text-white text-sm font-medium drop-shadow-md">Đang tải ảnh lên...</span>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -87,7 +97,9 @@ export default function About() {
                 <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-[90%] z-20 shadow-xl">
                   <ImageEditField 
                     currentImageUrl={currentImageUrl} 
-                    setContent={setContent} 
+                    setContent={setContent}
+                    onPreview={setPreviewUrl}
+                    onUploading={setIsUploadingImage}
                   />
                 </div>
               )}
@@ -182,10 +194,14 @@ export default function About() {
 // Sub-component for Image editing with upload + link options
 function ImageEditField({ 
   currentImageUrl, 
-  setContent 
+  setContent,
+  onPreview,
+  onUploading
 }: { 
   currentImageUrl: string; 
   setContent: (path: string, value: string) => void;
+  onPreview?: (url: string | null) => void;
+  onUploading?: (isUploading: boolean) => void;
 }) {
   const [activeTab, setActiveTab] = useState<'upload' | 'link'>('upload');
   const [isUploading, setIsUploading] = useState(false);
@@ -206,7 +222,12 @@ function ImageEditField({
       return;
     }
 
+    // Set local preview instantly
+    const objectUrl = URL.createObjectURL(file);
+    if (onPreview) onPreview(objectUrl);
+
     setIsUploading(true);
+    if (onUploading) onUploading(true);
     setUploadStatus(null);
 
     try {
@@ -225,11 +246,22 @@ function ImageEditField({
         setUploadStatus({ type: 'success', message: `✓ Đã cập nhật ảnh` });
       } else {
         setUploadStatus({ type: 'error', message: result.error || 'Upload thất bại' });
+        // Revert preview on error
+        if (onPreview) onPreview(null);
       }
     } catch (err) {
       setUploadStatus({ type: 'error', message: 'Lỗi kết nối' });
+      // Revert preview on error
+      if (onPreview) onPreview(null);
     } finally {
       setIsUploading(false);
+      if (onUploading) onUploading(false);
+      
+      // Delay revoking URL to give Next Image time to render new URL
+      setTimeout(() => {
+        if (onPreview) onPreview(null);
+        URL.revokeObjectURL(objectUrl);
+      }, 1000);
     }
   };
 

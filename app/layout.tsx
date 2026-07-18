@@ -3,6 +3,9 @@ import type { Metadata } from "next"
 import { Analytics } from "@/components/analytics"
 import ClientLayout from "./client"
 import { Suspense } from "react"
+import { getAllStoreData, initDb } from "@/lib/db"
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: "portfolio Huyền Xinh",
@@ -57,15 +60,18 @@ export const metadata: Metadata = {
     generator: 'v0.dev'
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  await initDb().catch(console.error);
+  const initialStoreData = await getAllStoreData();
+
   return (
     <>
       <Suspense>
-        <ClientLayout>{children}</ClientLayout>
+        <ClientLayout initialStoreData={initialStoreData}>{children}</ClientLayout>
       </Suspense>
       <Analytics />
     </>

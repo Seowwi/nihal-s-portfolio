@@ -37,41 +37,22 @@ const HIDDEN_STORAGE_KEY = 'portfolio_hidden_items';
 
 const EditableContext = createContext<EditableContextType | undefined>(undefined);
 
-export const EditableProvider = ({ children }: { children: React.ReactNode }) => {
+export const EditableProvider = ({ 
+  children,
+  initialStoreData = {}
+}: { 
+  children: React.ReactNode
+  initialStoreData?: Record<string, any>
+}) => {
   const [isEditMode, setIsEditMode] = useState(false);
-  const [customContent, setCustomContent] = useState<Record<string, Record<string, string>>>({});
-  const [hiddenItems, setHiddenItems] = useState<HiddenItemsMap>({});
-  const [layoutConfig, setLayoutConfig] = useState<LayoutMap>({});
-  const [addedItemsCount, setAddedItemsCount] = useState<Record<string, number>>({});
+  const [customContent, setCustomContent] = useState<Record<string, Record<string, string>>>(initialStoreData.customContent || {});
+  const [hiddenItems, setHiddenItems] = useState<HiddenItemsMap>(initialStoreData.hiddenItems || {});
+  const [layoutConfig, setLayoutConfig] = useState<LayoutMap>(initialStoreData.layoutConfig || {});
+  const [addedItemsCount, setAddedItemsCount] = useState<Record<string, number>>(initialStoreData.addedItemsCount || {});
   const { language } = useLanguage();
 
-  // Load from DB on mount
-  useEffect(() => {
-    const fetchFromDb = async () => {
-      try {
-        const response = await fetch('/api/store');
-        if (response.ok) {
-          const data = await response.json();
-          if (data.customContent && Object.keys(data.customContent).length > 0) {
-            setCustomContent(data.customContent);
-          }
-          if (data.hiddenItems && Object.keys(data.hiddenItems).length > 0) {
-            setHiddenItems(data.hiddenItems);
-          }
-          if (data.layoutConfig && Object.keys(data.layoutConfig).length > 0) {
-            setLayoutConfig(data.layoutConfig);
-          }
-          if (data.addedItemsCount && Object.keys(data.addedItemsCount).length > 0) {
-            setAddedItemsCount(data.addedItemsCount);
-          }
-        }
-      } catch (e) {
-        console.error('Failed to load custom content from DB:', e);
-      }
-    };
-    
-    fetchFromDb();
-  }, []);
+  // No longer fetch from DB on mount because data is passed via initialStoreData
+  // from Server Component (app/layout.tsx) during SSR!
 
   // Save to DB when content changes
   const saveToStorage = useCallback(async (content: Record<string, Record<string, string>>) => {
@@ -143,23 +124,25 @@ export const EditableProvider = ({ children }: { children: React.ReactNode }) =>
           [path]: value,
         },
       };
-      saveToStorage(updated);
+      setTimeout(() => saveToStorage(updated), 0);
       return updated;
     });
   }, [language, saveToStorage]);
 
   const resetContent = useCallback(() => {
+    let updatedContent: any;
     setCustomContent(prev => {
       const updated = { ...prev };
       delete updated[language];
-      saveToStorage(updated);
+      updatedContent = updated;
+      setTimeout(() => saveToStorage(updated), 0);
       return updated;
     });
-    // Also reset hidden items for current language
+    
     setHiddenItems(prev => {
       const updated = { ...prev };
       delete updated[language];
-      saveHiddenToStorage(updated);
+      setTimeout(() => saveHiddenToStorage(updated), 0);
       return updated;
     });
   }, [language, saveToStorage, saveHiddenToStorage]);
@@ -169,7 +152,7 @@ export const EditableProvider = ({ children }: { children: React.ReactNode }) =>
       const langContent = { ...(prev[language] || {}) };
       delete langContent[path];
       const updated = { ...prev, [language]: langContent };
-      saveToStorage(updated);
+      setTimeout(() => saveToStorage(updated), 0);
       return updated;
     });
   }, [language, saveToStorage]);
@@ -194,7 +177,7 @@ export const EditableProvider = ({ children }: { children: React.ReactNode }) =>
           [section]: [...sectionHidden, indexStr],
         },
       };
-      saveHiddenToStorage(updated);
+      setTimeout(() => saveHiddenToStorage(updated), 0);
       return updated;
     });
   }, [language, saveHiddenToStorage]);
@@ -211,7 +194,7 @@ export const EditableProvider = ({ children }: { children: React.ReactNode }) =>
           [section]: sectionHidden.filter(i => i !== indexStr),
         },
       };
-      saveHiddenToStorage(updated);
+      setTimeout(() => saveHiddenToStorage(updated), 0);
       return updated;
     });
   }, [language, saveHiddenToStorage]);
@@ -245,7 +228,7 @@ export const EditableProvider = ({ children }: { children: React.ReactNode }) =>
         ...prev,
         [section]: { ...sectionLayout, order: newOrder }
       };
-      saveLayoutToStorage(updated);
+      setTimeout(() => saveLayoutToStorage(updated), 0);
       return updated;
     });
   }, [saveLayoutToStorage]);
@@ -260,7 +243,7 @@ export const EditableProvider = ({ children }: { children: React.ReactNode }) =>
           spans: { ...sectionLayout.spans, [index]: span }
         }
       };
-      saveLayoutToStorage(updated);
+      setTimeout(() => saveLayoutToStorage(updated), 0);
       return updated;
     });
   }, [saveLayoutToStorage]);
@@ -276,7 +259,7 @@ export const EditableProvider = ({ children }: { children: React.ReactNode }) =>
         ...prev,
         [section]: (prev[section] || 0) + 1
       };
-      saveAddedCountToStorage(updated);
+      setTimeout(() => saveAddedCountToStorage(updated), 0);
       return updated;
     });
   }, [saveAddedCountToStorage]);

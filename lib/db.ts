@@ -16,3 +16,18 @@ export async function initDb() {
     );
   `;
 }
+
+export async function getAllStoreData() {
+  try {
+    const sql = getSql();
+    const results = await sql`SELECT id, data FROM portfolio_store`;
+    const store: Record<string, any> = {};
+    for (const row of results) {
+      store[row.id] = row.data;
+    }
+    return store;
+  } catch (e) {
+    console.error('Failed to get store data:', e);
+    return {};
+  }
+}

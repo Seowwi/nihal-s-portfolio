@@ -20,8 +20,10 @@ const fontSans = FontSans({
 
 export default function ClientLayout({
   children,
+  initialStoreData,
 }: {
   children: React.ReactNode
+  initialStoreData?: Record<string, any>
 }) {
   return (
     <html lang="ja" suppressHydrationWarning>
@@ -40,7 +42,7 @@ export default function ClientLayout({
       </head>
       <body className={cn("min-h-screen bg-background font-mono antialiased", fontSans.variable)}>
         <LanguageProvider>
-          <EditableProvider>
+          <EditableProvider initialStoreData={initialStoreData}>
             <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
               <div className="relative flex min-h-screen flex-col">
                 <noscript>
