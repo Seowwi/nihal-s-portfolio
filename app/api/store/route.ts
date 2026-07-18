@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
-import { sql, initDb } from '@/lib/db';
+import { getSql, initDb } from '@/lib/db';
+
+export const dynamic = 'force-dynamic';
 
 // Ensure table exists on first run
 let dbInitialized = false;
@@ -16,6 +18,7 @@ export async function GET() {
     await ensureDb();
 
     // Fetch custom content
+    const sql = getSql();
     const contentResult = await sql`SELECT data FROM portfolio_store WHERE id = 'customContent'`;
     const customContent = contentResult.length > 0 ? contentResult[0].data : {};
 
@@ -36,6 +39,7 @@ export async function POST(request: Request) {
     const body = await request.json();
 
     if (body.customContent) {
+      const sql = getSql();
       await sql`
         INSERT INTO portfolio_store (id, data)
         VALUES ('customContent', ${JSON.stringify(body.customContent)})
@@ -44,6 +48,7 @@ export async function POST(request: Request) {
     }
 
     if (body.hiddenItems) {
+      const sql = getSql();
       await sql`
         INSERT INTO portfolio_store (id, data)
         VALUES ('hiddenItems', ${JSON.stringify(body.hiddenItems)})
