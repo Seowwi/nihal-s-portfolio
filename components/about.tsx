@@ -1,17 +1,20 @@
 "use client"
 
 import { Card, CardContent } from "@/components/ui/card"
-import { BookOpen, Globe, MessageSquare, Target, X, Eye } from "lucide-react"
+import { BookOpen, Globe, MessageSquare, Target, X, Eye, Upload, Link2, Loader2, Image as ImageIcon } from "lucide-react"
 import { useLanguage } from "@/contexts/LanguageContext"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import EditableText from "@/components/editable-text"
 import { useEditable } from "@/contexts/EditableContext"
+import React, { useState, useRef } from "react"
 
 export default function About() {
   const { t } = useLanguage()
   const aboutData = t('about')
-  const { isEditMode, isItemHidden, hideItem, showItem } = useEditable()
+  const { isEditMode, isItemHidden, hideItem, showItem, getContent, setContent } = useEditable()
+  
+  const currentImageUrl = getContent('about.image', '/images/about-illustration.png');
 
   // Icons array to match features
   const featureIcons = [
@@ -72,13 +75,22 @@ export default function About() {
                 <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-primary/5 rounded-2xl"></div>
                 <div className="relative w-full h-full rounded-xl overflow-hidden">
                   <Image 
-                    src="/images/about-illustration.png" 
+                    src={currentImageUrl} 
                     alt="Japanese Culture Abstract" 
                     fill 
                     className="object-cover hover:scale-105 transition-transform duration-700"
                   />
                 </div>
               </div>
+
+              {isEditMode && (
+                <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-[90%] z-20 shadow-xl">
+                  <ImageEditField 
+                    currentImageUrl={currentImageUrl} 
+                    setContent={setContent} 
+                  />
+                </div>
+              )}
               
               {/* Decorative blobs */}
               <div className="absolute -top-10 -left-10 w-32 h-32 bg-primary/20 rounded-full blur-3xl -z-10"></div>
@@ -165,4 +177,154 @@ export default function About() {
       </section>
     </div>
   )
+}
+
+// Sub-component for Image editing with upload + link options
+function ImageEditField({ 
+  currentImageUrl, 
+  setContent 
+}: { 
+  currentImageUrl: string; 
+  setContent: (path: string, value: string) => void;
+}) {
+  const [activeTab, setActiveTab] = useState<'upload' | 'link'>('upload');
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadStatus, setUploadStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      setUploadStatus({ type: 'error', message: 'Chỉ chấp nhận file ảnh' });
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      setUploadStatus({ type: 'error', message: 'Ảnh quá lớn (tối đa 10MB)' });
+      return;
+    }
+
+    setIsUploading(true);
+    setUploadStatus(null);
+
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setContent(`about.image`, result.url);
+        setUploadStatus({ type: 'success', message: `✓ Đã cập nhật ảnh` });
+      } else {
+        setUploadStatus({ type: 'error', message: result.error || 'Upload thất bại' });
+      }
+    } catch (err) {
+      setUploadStatus({ type: 'error', message: 'Lỗi kết nối' });
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  return (
+    <div className="rounded-md border border-[#8c2a2a]/30 overflow-hidden bg-white/95 backdrop-blur shadow-lg">
+      <div className="flex border-b border-[#3b2a1a]/10">
+        <button
+          onClick={() => setActiveTab('upload')}
+          className={`flex-1 text-[11px] font-medium py-2 px-3 transition-all flex items-center justify-center gap-1.5 ${
+            activeTab === 'upload'
+              ? 'bg-[#8c2a2a]/10 text-[#8c2a2a] border-b-2 border-[#8c2a2a]'
+              : 'text-[#3b2a1a]/60 hover:text-[#3b2a1a]/80 bg-slate-50'
+          }`}
+        >
+          <Upload size={12} />
+          Upload Ảnh
+        </button>
+        <button
+          onClick={() => setActiveTab('link')}
+          className={`flex-1 text-[11px] font-medium py-2 px-3 transition-all flex items-center justify-center gap-1.5 ${
+            activeTab === 'link'
+              ? 'bg-[#8c2a2a]/10 text-[#8c2a2a] border-b-2 border-[#8c2a2a]'
+              : 'text-[#3b2a1a]/60 hover:text-[#3b2a1a]/80 bg-slate-50'
+          }`}
+        >
+          <Link2 size={12} />
+          Nhập Link
+        </button>
+      </div>
+
+      <div className="p-3">
+        {activeTab === 'upload' ? (
+          <div className="space-y-2">
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleFileUpload}
+              className="hidden"
+            />
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isUploading}
+              className={`w-full flex items-center justify-center gap-2 py-2 px-3 rounded-sm border transition-all text-xs font-medium ${
+                isUploading
+                  ? 'border-[#8c2a2a]/20 text-[#3b2a1a]/40 cursor-wait bg-slate-50'
+                  : 'border-[#8c2a2a]/30 text-[#8c2a2a] hover:bg-[#8c2a2a]/5 hover:border-[#8c2a2a]/50 cursor-pointer bg-white'
+              }`}
+            >
+              {isUploading ? (
+                <>
+                  <Loader2 size={14} className="animate-spin" />
+                  Đang tải lên...
+                </>
+              ) : (
+                <>
+                  <ImageIcon size={14} />
+                  Chọn ảnh từ máy
+                </>
+              )}
+            </button>
+            {uploadStatus && (
+              <p className={`text-[11px] text-center font-medium ${
+                uploadStatus.type === 'success' ? 'text-green-600' : 'text-red-500'
+              }`}>
+                {uploadStatus.message}
+              </p>
+            )}
+          </div>
+        ) : (
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 border rounded-sm px-2 py-1.5 bg-white">
+              <Link2 size={13} className="text-[#8c2a2a] shrink-0" />
+              <input
+                type="text"
+                defaultValue={currentImageUrl}
+                placeholder="https://example.com/image.png"
+                className="w-full bg-transparent text-xs text-[#3b2a1a] outline-none placeholder:text-[#3b2a1a]/40"
+                onBlur={(e) => {
+                  const val = e.target.value.trim();
+                  if (val) {
+                    setContent(`about.image`, val);
+                  }
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    (e.target as HTMLInputElement).blur();
+                  }
+                }}
+              />
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }

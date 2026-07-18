@@ -11,8 +11,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate file type
-    if (file.type !== 'application/pdf') {
-      return NextResponse.json({ error: 'Only PDF files are allowed' }, { status: 400 });
+    const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml'];
+    if (!allowedTypes.includes(file.type)) {
+      return NextResponse.json({ error: 'Only PDF and image files are allowed' }, { status: 400 });
     }
 
     // Validate file size (max 10MB)

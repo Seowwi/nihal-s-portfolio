@@ -1,7 +1,7 @@
 "use client"
 
 import { Card, CardContent } from "@/components/ui/card"
-import { GraduationCap, X, Eye } from "lucide-react"
+import { GraduationCap, X, Eye, Plus } from "lucide-react"
 import { useLanguage } from "@/contexts/LanguageContext"
 import { motion } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
@@ -11,7 +11,15 @@ import { useEditable } from "@/contexts/EditableContext"
 export default function Education() {
   const { t } = useLanguage()
   const educationData = t('education')
-  const { isEditMode, isItemHidden, hideItem, showItem } = useEditable()
+  const { isEditMode, isItemHidden, hideItem, showItem, getAddedCount, addNewItem } = useEditable()
+  
+  const addedCount = getAddedCount('education');
+  const defaultNewItem = { 
+    title: "Tiêu đề mới", 
+    institution: "Tổ chức / Nơi học", 
+    description: "Mô tả ngắn gọn về quá trình học tập hoặc kinh nghiệm tại đây..." 
+  };
+  const allItems = [...educationData.items, ...Array(addedCount).fill(defaultNewItem)];
 
   return (
     <section id="education" className="py-20 relative overflow-hidden">
@@ -38,7 +46,7 @@ export default function Education() {
 
           <div className="max-w-3xl mx-auto mt-12">
             <div className="relative border-l-2 border-primary/20 ml-4 md:ml-0">
-              {educationData.items.map((item: any, index: number) => {
+              {allItems.map((item: any, index: number) => {
                 const hidden = isItemHidden('education', index);
                 if (hidden && !isEditMode) return null;
 
@@ -99,6 +107,18 @@ export default function Education() {
                 );
               })}
             </div>
+            
+            {isEditMode && (
+              <div className="mt-12 flex justify-center">
+                <button
+                  onClick={() => addNewItem('education')}
+                  className="flex items-center gap-2 bg-primary/10 hover:bg-primary/20 text-primary px-6 py-3 rounded-full font-medium transition-colors border border-primary/20 border-dashed hover:scale-105 active:scale-95"
+                >
+                  <Plus size={18} />
+                  Thêm học vấn mới
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

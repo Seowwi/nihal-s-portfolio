@@ -5,6 +5,11 @@ import { useLanguage } from './LanguageContext';
 
 type HiddenItemsMap = Record<string, Record<string, string[]>>;
 
+type LayoutMap = Record<string, {
+  order: number[];
+  spans: Record<number, number>;
+}>;
+
 type EditableContextType = {
   isEditMode: boolean;
   toggleEditMode: () => void;
@@ -18,6 +23,13 @@ type EditableContextType = {
   showItem: (section: string, index: number) => void;
   getHiddenItems: (section: string) => number[];
   getHiddenCount: (section: string) => number;
+  // Layout management
+  getLayout: (section: string, defaultLength: number) => { order: number[], spans: Record<number, number> };
+  updateOrder: (section: string, newOrder: number[]) => void;
+  updateSpan: (section: string, index: number, span: number) => void;
+  // Added items management
+  getAddedCount: (section: string) => number;
+  addNewItem: (section: string) => void;
 };
 
 const STORAGE_KEY = 'portfolio_custom_content';
@@ -29,6 +41,8 @@ export const EditableProvider = ({ children }: { children: React.ReactNode }) =>
   const [isEditMode, setIsEditMode] = useState(false);
   const [customContent, setCustomContent] = useState<Record<string, Record<string, string>>>({});
   const [hiddenItems, setHiddenItems] = useState<HiddenItemsMap>({});
+  const [layoutConfig, setLayoutConfig] = useState<LayoutMap>({});
+  const [addedItemsCount, setAddedItemsCount] = useState<Record<string, number>>({});
   const { language } = useLanguage();
 
   // Load from DB on mount
@@ -43,6 +57,12 @@ export const EditableProvider = ({ children }: { children: React.ReactNode }) =>
           }
           if (data.hiddenItems && Object.keys(data.hiddenItems).length > 0) {
             setHiddenItems(data.hiddenItems);
+          }
+          if (data.layoutConfig && Object.keys(data.layoutConfig).length > 0) {
+            setLayoutConfig(data.layoutConfig);
+          }
+          if (data.addedItemsCount && Object.keys(data.addedItemsCount).length > 0) {
+            setAddedItemsCount(data.addedItemsCount);
           }
         }
       } catch (e) {
@@ -75,6 +95,30 @@ export const EditableProvider = ({ children }: { children: React.ReactNode }) =>
       });
     } catch (e) {
       console.error('Failed to save hidden items to DB:', e);
+    }
+  }, []);
+
+  const saveLayoutToStorage = useCallback(async (layout: LayoutMap) => {
+    try {
+      await fetch('/api/store', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ layoutConfig: layout }),
+      });
+    } catch (e) {
+      console.error('Failed to save layout config to DB:', e);
+    }
+  }, []);
+
+  const saveAddedCountToStorage = useCallback(async (counts: Record<string, number>) => {
+    try {
+      await fetch('/api/store', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ addedItemsCount: counts }),
+      });
+    } catch (e) {
+      console.error('Failed to save added items count to DB:', e);
     }
   }, []);
 
@@ -182,6 +226,61 @@ export const EditableProvider = ({ children }: { children: React.ReactNode }) =>
     return getHiddenItems(section).length;
   }, [getHiddenItems]);
 
+  // Layout functions
+  const getLayout = useCallback((section: string, defaultLength: number) => {
+    const defaultOrder = Array.from({ length: defaultLength }, (_, i) => i);
+    const layout = layoutConfig[section] || { order: defaultOrder, spans: {} };
+    // Ensure all items are in order array in case data length changed
+    const missing = defaultOrder.filter(i => !layout.order.includes(i));
+    return {
+      order: [...layout.order, ...missing].filter(i => i < defaultLength),
+      spans: layout.spans
+    };
+  }, [layoutConfig]);
+
+  const updateOrder = useCallback((section: string, newOrder: number[]) => {
+    setLayoutConfig(prev => {
+      const sectionLayout = prev[section] || { order: [], spans: {} };
+      const updated = {
+        ...prev,
+        [section]: { ...sectionLayout, order: newOrder }
+      };
+      saveLayoutToStorage(updated);
+      return updated;
+    });
+  }, [saveLayoutToStorage]);
+
+  const updateSpan = useCallback((section: string, index: number, span: number) => {
+    setLayoutConfig(prev => {
+      const sectionLayout = prev[section] || { order: [], spans: {} };
+      const updated = {
+        ...prev,
+        [section]: {
+          ...sectionLayout,
+          spans: { ...sectionLayout.spans, [index]: span }
+        }
+      };
+      saveLayoutToStorage(updated);
+      return updated;
+    });
+  }, [saveLayoutToStorage]);
+
+  // Added items functions
+  const getAddedCount = useCallback((section: string): number => {
+    return addedItemsCount[section] || 0;
+  }, [addedItemsCount]);
+
+  const addNewItem = useCallback((section: string) => {
+    setAddedItemsCount(prev => {
+      const updated = {
+        ...prev,
+        [section]: (prev[section] || 0) + 1
+      };
+      saveAddedCountToStorage(updated);
+      return updated;
+    });
+  }, [saveAddedCountToStorage]);
+
   return (
     <EditableContext.Provider value={{
       isEditMode,
@@ -195,6 +294,11 @@ export const EditableProvider = ({ children }: { children: React.ReactNode }) =>
       showItem,
       getHiddenItems,
       getHiddenCount,
+      getLayout,
+      updateOrder,
+      updateSpan,
+      getAddedCount,
+      addNewItem,
     }}>
       {children}
     </EditableContext.Provider>

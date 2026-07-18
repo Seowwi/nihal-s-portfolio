@@ -2,7 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { FileText, ExternalLink, ScrollText, Link2, X, Eye, Upload, Loader2 } from "lucide-react"
+import { FileText, ExternalLink, ScrollText, Link2, X, Eye, Upload, Loader2, Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import OpenSource from "./open-source"
@@ -17,12 +17,16 @@ import { motion, AnimatePresence } from "framer-motion"
 export default function Projects() {
   const { t, language } = useLanguage()
   const projectsData = t('projects')
-  const { isEditMode, getContent, setContent, isItemHidden, hideItem, showItem, getHiddenItems } = useEditable()
+  const { isEditMode, getContent, setContent, isItemHidden, hideItem, showItem, getHiddenItems, getAddedCount, addNewItem } = useEditable()
   
   const [selectedPdfUrl, setSelectedPdfUrl] = useState<string | null>(null)
   const [selectedPdfTitle, setSelectedPdfTitle] = useState<string | null>(null)
 
   const hiddenProjectIndices = getHiddenItems('projects')
+  
+  const addedCount = getAddedCount('projects');
+  const defaultNewItem = { title: "Dự án mới", description: "Mô tả dự án...", titleJp: "新プロジェクト", tags: [] };
+  const allItems = [...projectsData.items, ...Array(addedCount).fill(defaultNewItem)];
 
   return (
     <section id="projects" className="py-20 bg-muted/20 relative">
@@ -59,7 +63,7 @@ export default function Projects() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-20 mt-16 max-w-7xl mx-auto md:pb-12 lg:pb-24 px-4 sm:px-0">
-            {projectsData.items.map((assignment: any, index: number) => {
+            {allItems.map((assignment: any, index: number) => {
               const cardKanjis = ["文", "訳", "祭", "学", "話", "記"];
               const isEven = index % 2 === 0;
               const hidden = isItemHidden('projects', index);
@@ -140,13 +144,7 @@ export default function Projects() {
                       multiline
                     />
                     
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {assignment.tags.map((tag: string, i: number) => (
-                        <span key={i} className="text-[11px] font-serif font-medium tracking-wide bg-[#3b2a1a]/5 text-[#3b2a1a] dark:bg-white/10 dark:text-white/80 px-2.5 py-1 rounded-sm border border-[#3b2a1a]/15 dark:border-white/10">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+
 
                     {(currentPdfUrl || isEditMode) && (
                       <div className="mt-auto pt-4 border-t border-[#3b2a1a]/15 space-y-2">
@@ -196,10 +194,23 @@ export default function Projects() {
 
           {/* Show hidden items count in edit mode */}
           {isEditMode && hiddenProjectIndices.length > 0 && (
-            <div className="text-center text-sm text-muted-foreground">
+            <div className="text-center text-sm text-muted-foreground mt-8">
               <span className="bg-red-500/10 text-red-500 px-3 py-1.5 rounded-full text-xs font-medium">
                 {hiddenProjectIndices.length} card đã bị ẩn (hiển thị mờ ở trên)
               </span>
+            </div>
+          )}
+
+          {/* Add new project button */}
+          {isEditMode && (
+            <div className="mt-8 flex justify-center">
+              <button
+                onClick={() => addNewItem('projects')}
+                className="flex items-center gap-2 bg-[#8c2a2a]/10 hover:bg-[#8c2a2a]/20 text-[#8c2a2a] px-6 py-3 rounded-full font-medium transition-colors border border-[#8c2a2a]/20 border-dashed hover:scale-105 active:scale-95"
+              >
+                <Plus size={18} />
+                Thêm dự án / bài luận mới
+              </button>
             </div>
           )}
 
