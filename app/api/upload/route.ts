@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { put } from '@vercel/blob';
+import { getSql } from '@/lib/db';
 
 export async function POST(request: NextRequest) {
   try {
@@ -22,23 +22,29 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'File too large (max 10MB)' }, { status: 400 });
     }
 
-    // Generate a safe filename: timestamp + sanitized original name
+    // Generate a safe unique ID
     const timestamp = Date.now();
-    const safeName = file.name
-      .replace(/[^a-zA-Z0-9._-]/g, '_')
-      .replace(/_+/g, '_');
-    const fileName = `${timestamp}_${safeName}`;
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_').replace(/_+/g, '_');
+    const fileId = `${timestamp}_${safeName}`;
 
-    // Upload to Vercel Blob
-    const blob = await put(fileName, file, {
-      access: 'public',
-      contentType: file.type,
-    });
+    // Convert file to Base64
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+    const base64String = buffer.toString('base64');
 
-    // Return the public URL
+    // Save to Neon DB
+    const sql = getSql();
+    await sql`
+      INSERT INTO portfolio_files (id, name, mime_type, data_base64)
+      VALUES (${fileId}, ${file.name}, ${file.type}, ${base64String})
+    `;
+
+    // Return the custom API URL
+    const url = `/api/files/${fileId}`;
+
     return NextResponse.json({ 
       success: true, 
-      url: blob.url,
+      url: url,
       fileName: file.name,
       size: file.size 
     });
